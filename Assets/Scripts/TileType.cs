@@ -1,12 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
+
+public enum Type
+{
+    None,
+    Grass,
+    Desert,
+    Water
+}
 
 [System.Serializable]
 public class TileType
 {
     public string name;
-    public GameObject type;
+    public Type type;
     public int XPostion, YPostion;
 
     public bool isWalkable = true;
@@ -16,10 +25,10 @@ public class TileType
     public float movementCost = 1;
 
     public static GameObject DEFAULTTYPE;
-    public TileType() : this("Unnamed", DEFAULTTYPE, 0, 0, false)
+    public TileType() : this("Unnamed", Type.None, 0, 0, false)
     {
     }
-    public TileType(string name, GameObject type, int XPos, int YPos, bool isWater)
+    public TileType(string name, Type type, int XPos, int YPos, bool isWater)
     {
         this.name = name;
         this.type = type;
@@ -125,6 +134,19 @@ public class TileType
             }
         }
         */
+    public Vector2Int getTileTypePosistion()
+    {
+        return new Vector2Int(XPostion, YPostion);
+    }
 
+    public Type getTileType()
+    {
+        return this.type;
+    }
+
+    public string getTyleName()
+    {
+        return this.name;
+    }
 }
 

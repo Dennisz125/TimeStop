@@ -6,33 +6,32 @@ using System.Linq;
 
 public class MapMake2 : MonoBehaviour
 {
-
+    // Models it use to spawn
     public GameObject grass_hex, water_hex, desert_hex;
-    GameObject spawnHex;
-
-    public GameObject selectedUnit;
-
-    public TileType[] tileTypes;
-
-    int[,] tiles;
-
+    
+    // 2D Map, each cell is a TileType for data storage
+    public TileType[,] tileTypesMap;
 
     // Size of the map in terms of hex tiles
     public int width, height;
 
-    float xOffset = 1.73f;
-    float zOffset = 1.5f;
+    // Private and local variable
+    private GameObject spawnHex;
+    private Type spawnType;
+    private bool isWater = false;
+    private float xOffset = 1.73f;
+    private float zOffset = 1.5f;
 
-    void MapMake(int level)
+    public void MapMake(int level)
     {
         /* Makes a map for scene *Map2*
          * Make and save seed
          * Make a 2d list of cords of hexs
          */
-        Random.seed = level;
+        Random.InitState(level);
 
         // Allocate our map tiles
-        tiles = new int[width, height];
+        tileTypesMap = new TileType[width, height];
 
         for (int x = 0; x < width; x++)
         {
@@ -47,29 +46,36 @@ public class MapMake2 : MonoBehaviour
                 }
                 int randomHexInt = Random.Range(0, 3);
 
+                // Get Temp Model and Type
                 switch (randomHexInt)
                 {
                     case 0:
                         spawnHex = grass_hex;
+                        spawnType = Type.Grass;
                         break;
                     case 1:
                         spawnHex = water_hex;
+                        spawnType = Type.Water;
+                        isWater= true;
                         break;
                     case 2:
                         spawnHex = desert_hex;
+                        spawnType = Type.Desert;
                         break;
                 }
 
+                // Spawns and render new Hex into the Game
                 GameObject hex_tile = Instantiate(spawnHex, new Vector3(xPos, 0, y * zOffset), spawnHex.transform.rotation) as GameObject;
                 var meshCollider = hex_tile.AddComponent<MeshCollider>();
 
+                // Set Name and Tag, Set Current Object using this script as parent
                 hex_tile.gameObject.tag = "HexTile";
                 hex_tile.name = "Hex_" + x + "_" + y;
-                //hex_tile.setTileXY(x, y);
                 hex_tile.transform.SetParent(this.transform);
+
+                //hex_tile.setTileXY(x, y);
                 //allTiles.Add(x*1000+y, hex_tile);
 
-                
                 /*
                 if (spawnHex == grass_hex)
                 {
@@ -77,27 +83,37 @@ public class MapMake2 : MonoBehaviour
                 }
                 */
 
-                
-
-                //Generate data for the map 
-                tiles[x, y] = randomHexInt;
-
-                // TODO: FIX THE BUG RELATED TO THE LINE BELOW
-                //tileTypeList[x, y] = tileType;
-                //Debug.Log(hex_tile.name + " has spawned");
+                //Generate data for the map | TileType(string name, Type type, int XPos, int YPos, bool isWater)
+                tileTypesMap[x, y] = new TileType(hex_tile.name, spawnType, x, y, isWater);
+                isWater = false;
             }
         }
     }
-    void returnTiles(ref int[,] tiles)
+    public TileType[,] getTileTypeMap()
     {
-        /*Returns and gives tiles to MainScript
-        */
+        return this.tileTypesMap;
+        //Gives tiles to Other Script
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
             {
-                tiles[x,y] = this.tiles[x, y];
+                //tiles[x,y] = this.tileTypesMap[x, y];
             } 
         }
+
+    }
+
+    public void deleteTilesTypeMapData()
+    {
+        //Set every cell to NULL then deletes the table
+        //Gives tiles to Other Script
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                this.tileTypesMap[x, y] = null;
+            }
+        }
+        this.tileTypesMap = null;
     }
 }

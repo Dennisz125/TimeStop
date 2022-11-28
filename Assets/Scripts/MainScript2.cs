@@ -12,19 +12,20 @@ public class MainScript2 : MonoBehaviour
 
     GameObject selection = null;
 
-    private int[,] tiles;
+    //Private Variables
+    private MapMake2 mapData;
 
     public int level = 1;
     // Start is called before the first frame update
     void Start()
     {
-        map.SendMessage("MapMake", level);
+        //Get the script from the object, then make a data
+        mapData = map.GetComponent<MapMake2>();
+        mapData.MapMake(level);
 
-
-        map.SendMessage("returnTiles", tiles);
         //spawnBlueOnGrass();
         _ = Instantiate(pawnBlue, new Vector3(0, 0.5f, 0), pawnBlue.transform.rotation) as GameObject;
-        
+        //Breakpoint
     }
 
     // Update is called once per frame
@@ -90,5 +91,10 @@ public class MainScript2 : MonoBehaviour
         GameObject redPawn = GameObject.FindWithTag("Red Pawn");
         Vector3 posB = bluepawn.transform.position;
         redPawn.SendMessage("Move", posB);
+    }
+
+    void printTileTypeMap()
+    {
+
     }
 }
