@@ -18,7 +18,7 @@ public class pawn: MonoBehaviour
     Material original = null;
     public Material Outline;
 
-    private int teamOwner = 0;
+    [SerializeField]private int teamOwner = 0;
 
     // Start is called before the first frame update
     void Start()
