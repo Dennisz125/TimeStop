@@ -6,10 +6,12 @@ using Object = UnityEngine.Object;
 
 public class VictoryConditions : MonoBehaviour
 {
-    // team unit counters for victory conditions
+    // team unit counters for victory conditions. start at the highest amount so it does not auto-conclude game
     private int team1UnitCount = Int32.MaxValue;
     private int team2UnitCount = Int32.MaxValue;
 
+    // checks if either team has lost all pawns
+    // if so, return true and the team who won
     public (bool, int) checkIfTeamWon()
     {
         detectTeamUnits();
@@ -24,6 +26,7 @@ public class VictoryConditions : MonoBehaviour
         return (false, 0);
     }
     
+    // counts all the pawns belonging to both teams
     private void detectTeamUnits()
     {
         pawn[] allPawns = Object.FindObjectsOfType<pawn>();

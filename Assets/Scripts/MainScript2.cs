@@ -14,7 +14,7 @@ public class MainScript2 : MonoBehaviour
 
     //Private Variables
     private MapMake2 mapData;
-    private VictoryConditions victoryConditions;
+    private VictoryConditions victoryConditions = new VictoryConditions();
 
     public int level = 1;
     // Start is called before the first frame update
