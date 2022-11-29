@@ -14,6 +14,7 @@ public class MainScript2 : MonoBehaviour
 
     //Private Variables
     private MapMake2 mapData;
+    private VictoryConditions victoryConditions;
 
     public int level = 1;
     // Start is called before the first frame update
@@ -73,6 +74,14 @@ public class MainScript2 : MonoBehaviour
         }
        
         // redChaseBlue();
+        
+        
+        // check if a team has won the game
+        (bool, int) winnerTeam = victoryConditions.checkIfTeamWon();
+        if (winnerTeam.Item1)
+        {
+            print("winner! team:" + winnerTeam.Item2);
+        }
     }
 
     void spawnBlueOnGrass()

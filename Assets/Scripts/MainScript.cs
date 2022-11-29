@@ -76,8 +76,12 @@ public class MainScript : MonoBehaviour
         // Red Pawn chase after the Blue Pawn
         GameObject bluepawn = GameObject.FindWithTag("Blue Pawn");
         GameObject redPawn = GameObject.FindWithTag("Red Pawn");
-        Vector3 posB = bluepawn.transform.position;
-        redPawn.SendMessage("Move", posB);
+        if (bluepawn != null && redPawn != null)
+        {
+            Vector3 posB = bluepawn.transform.position;
+            redPawn.SendMessage("Move", posB);
+        }
+        
         
     }
 }
