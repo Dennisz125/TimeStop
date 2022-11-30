@@ -1436,7 +1436,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78916baeae5e7144a86f1e2aca262f70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  grass_hex: {fileID: -927199367670048503, guid: 3d02628552a9db746a204411d0c349de,
+  grass_hex: {fileID: 457811476991046238, guid: 6efd42ad6eb479449bb38520c967df3b,
     type: 3}
   width: 25
   height: 15
@@ -1484,9 +1484,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f43f1d1111cb3d9469476174369804c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blueTeam: {fileID: 0}
-  redTeam: {fileID: 0}
-  pawnRed: {fileID: 0}
+  blueTeam: {fileID: 698862727}
+  redTeam: {fileID: 663528031}
+  pawnRed: {fileID: 4961534606265642828, guid: 6ff87d7561d0ad449b2fd7008451dede, type: 3}
   pawnBlue: {fileID: 1862562490292044458, guid: 90a3fd58518cde34ca85e75111411883,
     type: 3}
   redArtillery: {fileID: 0}
