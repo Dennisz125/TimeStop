@@ -74,6 +74,7 @@ public class MapMake2 : MonoBehaviour
                 hex_tile.gameObject.tag = "HexTile";
                 hex_tile.name = "Hex_" + x + "_" + y;
                 hex_tile.transform.SetParent(this.transform);
+                hex_tile.GetComponent<ClickableTile>().setTilePositionAndType(x, y, spawnType);
 
                 //hex_tile.setTileXY(x, y);
                 //allTiles.Add(x*1000+y, hex_tile);

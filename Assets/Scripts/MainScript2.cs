@@ -29,6 +29,7 @@ public class MainScript2 : MonoBehaviour
 
         spawnNewPieceAt(pawnBlue, new Vector2Int(0, 1), blueTeam);
         spawnNewPieceAt(pawnBlue, new Vector2Int(0, 0), blueTeam);
+        spawnNewPieceAt(pawnRed, new Vector2Int(3, 0), redTeam);
 
         //spawnBlueOnGrass();
         //spawnBlueOnGrass();
@@ -69,9 +70,20 @@ public class MainScript2 : MonoBehaviour
                     Vector3 dst = hitInfo.point;
                     selection.SendMessage("Move", dst);
                     */
-                    selection.transform.position = hitInfo.transform.position;
-                    selection.SendMessage("Highlight", false);
-                    selection = null;
+                    //Get scripts from selection and hitInfo
+                    pawn selectionScript = selection.GetComponent<pawn>();
+                    ClickableTile hitInfoScript = hitInfo.transform.GetComponent<ClickableTile>();
+
+                    Vector2Int hitInfoPosition = hitInfoScript.getTileXYPosition();
+                    selectionScript.makeNeighbors();
+                    if(selectionScript.checkNeighbors(hitInfoPosition))
+                    {
+                        selection.transform.position = hitInfo.transform.position;
+                        selectionScript.setPosition(hitInfoPosition);
+                        selection.SendMessage("Highlight", false);
+                        selection = null;
+                    }
+                    
                 }
             }
         }
@@ -104,14 +116,16 @@ public class MainScript2 : MonoBehaviour
         }
         
         GameObject newSpawn = Instantiate(newObject, new Vector3(xPos, 0.5f, newPosition.y * zOffset), newObject.transform.rotation, parent) as GameObject;
-        newSpawn.GetComponent<pawn>().setPosition(newPosition);
+        pawn newPawnScript = newSpawn.GetComponent<pawn>();
+        newPawnScript.setPosition(newPosition);
         if (parent == this.blueTeam)
         {
-            newSpawn.GetComponent<pawn>().setTeamOwner(1);
+            newPawnScript.setTeamOwner(1);
         } else if (parent == this.redTeam)
         {
-            newSpawn.GetComponent<pawn>().setTeamOwner(2);
+            newPawnScript.setTeamOwner(2);
         }
+        newPawnScript.makeNeighbors();
         
     }
 
