@@ -7,7 +7,7 @@ using System.Linq;
 public class MapMake2 : MonoBehaviour
 {
     // Models it use to spawn
-    public GameObject grass_hex, water_hex, desert_hex;
+    public GameObject grass_hex;//, water_hex, desert_hex;
     
     // 2D Map, each cell is a TileType for data storage
     public TileType[,] tileTypesMap;
@@ -44,7 +44,7 @@ public class MapMake2 : MonoBehaviour
                 {
                     xPos += xOffset / 2f;
                 }
-                int randomHexInt = Random.Range(0, 3);
+                int randomHexInt = 0;// Random.Range(0, 3);
 
                 // Get Temp Model and Type
                 switch (randomHexInt)
@@ -53,6 +53,7 @@ public class MapMake2 : MonoBehaviour
                         spawnHex = grass_hex;
                         spawnType = Type.Grass;
                         break;
+                        /*
                     case 1:
                         spawnHex = water_hex;
                         spawnType = Type.Water;
@@ -62,6 +63,7 @@ public class MapMake2 : MonoBehaviour
                         spawnHex = desert_hex;
                         spawnType = Type.Desert;
                         break;
+                        */
                 }
 
                 // Spawns and render new Hex into the Game
@@ -92,15 +94,11 @@ public class MapMake2 : MonoBehaviour
     public TileType[,] getTileTypeMap()
     {
         return this.tileTypesMap;
-        //Gives tiles to Other Script
-        for (int x = 0; x < width; x++)
-        {
-            for (int y = 0; y < height; y++)
-            {
-                //tiles[x,y] = this.tileTypesMap[x, y];
-            } 
-        }
+    }
 
+    public Vector2Int getTileTypePos()
+    {
+        return new Vector2Int(0, 0);
     }
 
     public void deleteTilesTypeMapData()

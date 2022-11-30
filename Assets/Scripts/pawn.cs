@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+//using System.Numerics;
 using UnityEngine;
+
 
 public class pawn: MonoBehaviour
 {
@@ -8,12 +10,14 @@ public class pawn: MonoBehaviour
     float[] directions = { 0.0f, 60.0f, 120.0f, 180.0f, 240.0f, 300.0f };
     int dir;
 
-    static int i = 0;
-    Vector3 target, deltaV;
+    static int id = 0;
+    UnityEngine.Vector3 target, deltaV;
     bool inMotion;
     float speed;
+    Vector2[] neghbors;
 
     int tileX, tileY;
+    int healthPoints;
 
     Material original = null;
     public Material Outline;
@@ -124,5 +128,31 @@ public class pawn: MonoBehaviour
             Debug.Log("Red Pawn Gone");
             Destroy(collision.gameObject);
         }
+    }
+
+    public void setPosition(Vector2Int newPosition)
+    {
+        this.tileX= newPosition.x;
+        this.tileY= newPosition.y;
+    }
+
+    public Vector2Int getPosition()
+    {
+        return new Vector2Int(this.tileX, this.tileY);
+    }
+
+    public bool checkNeghbors(Vector2 newHexPosition)
+    {
+
+        //check 2 tile on the left
+        if (newHexPosition == null) return false;
+        //check 2 tile on the right
+        //check top and botton
+        return true;
+    }
+
+    public void makeNeghbors(Vector2 position)
+    {
+
     }
 }
