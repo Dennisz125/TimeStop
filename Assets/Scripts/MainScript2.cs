@@ -105,6 +105,13 @@ public class MainScript2 : MonoBehaviour
         
         GameObject newSpawn = Instantiate(newObject, new Vector3(xPos, 0.5f, newPosition.y * zOffset), newObject.transform.rotation, parent) as GameObject;
         newSpawn.GetComponent<pawn>().setPosition(newPosition);
+        if (parent == this.blueTeam)
+        {
+            newSpawn.GetComponent<pawn>().setTeamOwner(1);
+        } else if (parent == this.redTeam)
+        {
+            newSpawn.GetComponent<pawn>().setTeamOwner(2);
+        }
         
     }
 
