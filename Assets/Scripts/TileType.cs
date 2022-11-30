@@ -134,9 +134,15 @@ public class TileType
             }
         }
         */
-    public Vector2Int getTileTypePosistion()
+
+    //Get Indexs within 2D Map
+    public Vector2Int getTileTypeMapPosition()
     {
         return new Vector2Int(XPostion, YPostion);
+    }
+    public Vector2 getRealWorldPosition()
+    {
+        return new Vector2(0, 0);
     }
 
     public Type getTileType()
