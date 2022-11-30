@@ -15,9 +15,9 @@ public class MainScript2 : MonoBehaviour
 
     //Private Variables
     private MapMake2 mapData;
+    private VictoryConditions victoryConditions = new VictoryConditions();
     private float xOffset = 1.73f;
     private float zOffset = 1.5f;
-    
 
     public int level = 1;
     // Start is called before the first frame update
@@ -82,6 +82,14 @@ public class MainScript2 : MonoBehaviour
         }
        
         // redChaseBlue();
+        
+        
+        // check if a team has won the game
+        (bool, int) winnerTeam = victoryConditions.checkIfTeamWon();
+        if (winnerTeam.Item1)
+        {
+            print("winner! team:" + winnerTeam.Item2);
+        }
     }
 
 
@@ -97,6 +105,13 @@ public class MainScript2 : MonoBehaviour
         
         GameObject newSpawn = Instantiate(newObject, new Vector3(xPos, 0.5f, newPosition.y * zOffset), newObject.transform.rotation, parent) as GameObject;
         newSpawn.GetComponent<pawn>().setPosition(newPosition);
+        if (parent == this.blueTeam)
+        {
+            newSpawn.GetComponent<pawn>().setTeamOwner(1);
+        } else if (parent == this.redTeam)
+        {
+            newSpawn.GetComponent<pawn>().setTeamOwner(2);
+        }
         
     }
 

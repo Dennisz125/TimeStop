@@ -22,6 +22,8 @@ public class pawn: MonoBehaviour
     Material original = null;
     public Material Outline;
 
+    [SerializeField]private int teamOwner = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,6 +39,16 @@ public class pawn: MonoBehaviour
         dir = 0;
 
         inMotion = false;        
+    }
+    
+    public void setTeamOwner(int teamOwner)
+    {
+        this.teamOwner = teamOwner;
+    }
+
+    public int getTeamOwner()
+    {
+        return this.teamOwner;
     }
 
     void setTarget(Vector3 destination)
