@@ -17,8 +17,10 @@ public class pawn: MonoBehaviour
     [SerializeField] Vector2Int[] neighbors;
 
     [SerializeField] int tileX, tileY;
-    [SerializeField] public int healthPoints;
+    [SerializeField] public int healthPoints = 1;
     [SerializeField] public int actionPoints;
+    [SerializeField] public int attackRange = 1;
+    [SerializeField] public int movementSpeed = 1;
 
     Material original = null;
     public Material Outline;

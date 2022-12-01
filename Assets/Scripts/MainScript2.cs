@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -19,7 +20,7 @@ public class MainScript2 : MonoBehaviour
 
     public GameObject map;
 
-    GameObject selection = null;
+    public GameObject selection = null;
 
     //Private Variables
     private MapMake2 mapData;
@@ -28,7 +29,13 @@ public class MainScript2 : MonoBehaviour
     private float xOffset = 1.73f;
     private float zOffset = 1.5f;
     private GamePhase currentPhase = GamePhase.Player1;
+    
+    // UI related fields
     [SerializeField] private GameObject pawnInfoUI;
+    [SerializeField] private GameObject pawnUIHealth;
+    [SerializeField] private GameObject pawnUIMovementSpeed;
+    [SerializeField] private GameObject pawnUIAttackRange;
+
     
     public int level = 1;
     // Start is called before the first frame update
@@ -41,6 +48,7 @@ public class MainScript2 : MonoBehaviour
         spawnNewPieceAt(pawnBlue, new Vector2Int(0, 1), blueTeam);
         spawnNewPieceAt(pawnBlue, new Vector2Int(0, 0), blueTeam);
         spawnNewPieceAt(pawnRed, new Vector2Int(3, 0), redTeam);
+        pawnInfoUI.SetActive(false);
 
         //spawnBlueOnGrass();
         //spawnBlueOnGrass();
@@ -73,8 +81,9 @@ public class MainScript2 : MonoBehaviour
 
                     //update UI 
                     pawnInfoUI.SetActive(true);
-
-
+                    pawnUIHealth.GetComponent<TextMeshProUGUI>().text = hitInfo.transform.gameObject.GetComponent<pawn>().healthPoints.ToString();
+                    pawnUIAttackRange.GetComponent<TextMeshProUGUI>().text = hitInfo.transform.gameObject.GetComponent<pawn>().attackRange.ToString();
+                    pawnUIMovementSpeed.GetComponent<TextMeshProUGUI>().text = hitInfo.transform.gameObject.GetComponent<pawn>().movementSpeed.ToString();
                 }
             }
             else
