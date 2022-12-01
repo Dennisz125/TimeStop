@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+enum GamePhase
+{
+    Player1 = 1,
+    Player2 = 2,
+    Execution = 3
+}
+
 public class MainScript2 : MonoBehaviour
 {
     public Transform blueTeam, redTeam;
@@ -19,7 +26,8 @@ public class MainScript2 : MonoBehaviour
     private MainUI UI = new MainUI();
     private float xOffset = 1.73f;
     private float zOffset = 1.5f;
-
+    private GamePhase currentPhase = GamePhase.Player1;
+    
     public int level = 1;
     // Start is called before the first frame update
     void Start()
