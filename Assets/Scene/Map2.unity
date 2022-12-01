@@ -1438,6 +1438,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grass_hex: {fileID: 457811476991046238, guid: 6efd42ad6eb479449bb38520c967df3b,
     type: 3}
+  water_hex: {fileID: -927199367670048503, guid: 4e226dedfb97e4f4281038a875af3df3,
+    type: 3}
+  desert_hex: {fileID: -927199367670048503, guid: 1d427230207f5824d8af5656b59d3ef1,
+    type: 3}
   width: 25
   height: 15
 --- !u!1 &1125484638
