@@ -7,7 +7,7 @@ using System.Linq;
 public class MapMake2 : MonoBehaviour
 {
     // Models it use to spawn
-    public GameObject grass_hex;//, water_hex, desert_hex;
+    public GameObject grass_hex, water_hex, desert_hex;
     
     // 2D Map, each cell is a TileType for data storage
     public TileType[,] tileTypesMap;
@@ -44,16 +44,39 @@ public class MapMake2 : MonoBehaviour
                 {
                     xPos += xOffset / 2f;
                 }
-                int randomHexInt = 0;// Random.Range(0, 3);
 
+                int randomMin = 0;
+                int randomMax = 6;
+                int tile1Match = 0;
+                int tile2Match = 0;
+                int tile3Match = 0;
+                if (x > 0 && y > 0 && x < width - 1 && y < height - 1)
+                {
+                    // get tempTile1 = x-1,y-1 tile type
+                    // get tempTile2 = x-1,y tile type
+                    // get tempTile3 = x,y-1 tile type
+                    
+                    // if tempTile1 == tile type 1
+                    // tile1Match++
+                    // else if tempTile1 == tile type 2
+                    // tile2Match++
+                    // else if tempTile1 == tile type 3
+                    // tile3Match++
+                    
+                    // repeat for remaining 2 tiles
+                }
+                int randomHexInt = Random.Range(randomMin, randomMax);
+
+                // if (randomHexInt >= 0 && randomHexInt <= )
+                
                 // Get Temp Model and Type
-                switch (randomHexInt)
+                /*switch (randomHexInt)
                 {
                     case 0:
                         spawnHex = grass_hex;
                         spawnType = Type.Grass;
                         break;
-                        /*
+                        
                     case 1:
                         spawnHex = water_hex;
                         spawnType = Type.Water;
@@ -63,8 +86,8 @@ public class MapMake2 : MonoBehaviour
                         spawnHex = desert_hex;
                         spawnType = Type.Desert;
                         break;
-                        */
-                }
+                        
+                }*/
 
                 // Spawns and render new Hex into the Game
                 GameObject hex_tile = Instantiate(spawnHex, new Vector3(xPos, 0, y * zOffset), spawnHex.transform.rotation) as GameObject;
