@@ -1,8 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 //using System.Numerics;
 using UnityEngine;
-
 
 public class pawn: MonoBehaviour
 {
@@ -11,13 +11,14 @@ public class pawn: MonoBehaviour
     int dir;
 
     static int id = 0;
-    UnityEngine.Vector3 target, deltaV;
+    Vector3 target, deltaV;
     bool inMotion;
     float speed;
-    Vector2[] neghbors;
+    [SerializeField] Vector2Int[] neighbors;
 
-    int tileX, tileY;
-    int healthPoints;
+    [SerializeField] int tileX, tileY;
+    [SerializeField] public int healthPoints;
+    [SerializeField] public int actionPoints;
 
     Material original = null;
     public Material Outline;
@@ -38,7 +39,8 @@ public class pawn: MonoBehaviour
         };
         dir = 0;
 
-        inMotion = false;        
+        inMotion = false;
+        neighbors = new Vector2Int[6];
     }
     
     public void setTeamOwner(int teamOwner)
@@ -153,7 +155,7 @@ public class pawn: MonoBehaviour
         return new Vector2Int(this.tileX, this.tileY);
     }
 
-    public bool checkNeghbors(Vector2 newHexPosition)
+    public bool checkNeighbors(Vector2 newHexPosition)
     {
 
         //check 2 tile on the left
@@ -163,8 +165,48 @@ public class pawn: MonoBehaviour
         return true;
     }
 
-    public void makeNeghbors(Vector2 position)
+    public void makeNeighbors()
     {
-
+        //TODO
+        //This is brute force, if you have time, refine this block
+        neighbors = new Vector2Int[6];
+        if (tileY % 2 != 0)
+        {
+            neighbors[0] = new Vector2Int(tileX, tileY + 1);
+            neighbors[1] = new Vector2Int(tileX - 1, tileY);
+            neighbors[2] = new Vector2Int(tileX, tileY - 1);
+            neighbors[3] = new Vector2Int(tileX + 1, tileY + 1);
+            neighbors[4] = new Vector2Int(tileX + 1, tileY);
+            neighbors[5] = new Vector2Int(tileX + 1, tileY - 1);
+        } else
+        {
+            neighbors[0] = new Vector2Int(tileX - 1, tileY - 1);
+            neighbors[1] = new Vector2Int(tileX - 1, tileY);
+            neighbors[2] = new Vector2Int(tileX - 1, tileY + 1);
+            neighbors[3] = new Vector2Int(tileX, tileY + 1);
+            neighbors[4] = new Vector2Int(tileX + 1, tileY);
+            neighbors[5] = new Vector2Int(tileX, tileY - 1);
+        }
+        
+    }
+    public bool checkNeighbors(Vector2Int position)
+    {
+        foreach (Vector2Int neighbor in neighbors)
+        {
+            //Edge case
+            if (neighbor.x < 0 || neighbor.y < 0 || neighbor == null) continue;
+            if (neighbor == position) return true;
+        }
+        return false;
+    }
+    public bool checkNeighbors(Vector3 position)
+    {
+        foreach (Vector2Int neighbor in neighbors)
+        {
+            //Edge case
+            if (neighbor.x < 0 || neighbor.y < 0 || neighbor == null) continue;
+            if (neighbor.x == position.x && neighbor.y == position.y) return true;
+        }
+        return false;
     }
 }
