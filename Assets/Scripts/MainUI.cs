@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class MainUI : MonoBehaviour
 {
@@ -51,4 +52,59 @@ public class MainUI : MonoBehaviour
     {
         commandpanel.SetActive(!commandpanel.activeSelf);
     }
+
+    public void setinfo(int hp, int ms, int ar, Sprite img)
+    {
+        Transform[] myTransforms = infopanel.GetComponentsInChildren<Transform>();
+        foreach (var child in myTransforms)
+        {
+            if (child.name == "HP")
+            {
+                child.GetComponent<TextMeshProUGUI>().text = hp.ToString();
+            }
+            else if (child.name == "MS")
+            {
+                child.GetComponent<TextMeshProUGUI>().text = ms.ToString();
+            }
+            else if (child.name == "AR")
+            {
+                child.GetComponent<TextMeshProUGUI>().text = ar.ToString();
+            }
+            if (child.name == "Image")
+            {
+                child.GetComponent<Image>().sprite = img;
+            }
+        }
+    }
+
+    public void updateroundnum(int num)
+    {
+        TextMeshProUGUI text = roundnum.transform.Find("roundnum/Roundnum").GetComponent<TextMeshProUGUI>();
+        text.text = "Round " + num.ToString();
+    }
+
+    public void updatestage(int num)
+    {
+        TextMeshProUGUI text = roundnum.transform.Find("process info/Process").GetComponent<TextMeshProUGUI>();
+        
+        switch (num)
+        {
+            case 1:
+                text.text = "Team red planning phase";
+                break;
+            case 2:
+                text.text = "Team blue planning phase";
+                break;
+            case 3:
+                text.text = "Team red executing phase";
+                break;
+            case 4:
+                text.text = "Team blue executing phase";
+                break;
+            default:
+                text.text = "waitting";
+                break;
+        }
+    }
+
 }

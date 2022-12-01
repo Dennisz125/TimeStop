@@ -16,6 +16,7 @@ public class MainScript2 : MonoBehaviour
     //Private Variables
     private MapMake2 mapData;
     private VictoryConditions victoryConditions = new VictoryConditions();
+    private MainUI UI = new MainUI();
     private float xOffset = 1.73f;
     private float zOffset = 1.5f;
 
@@ -59,6 +60,10 @@ public class MainScript2 : MonoBehaviour
                     }
                     selection = hitInfo.transform.gameObject;
                     selection.SendMessage("Highlight", true);
+
+                    //update UI 
+                    
+
                 }
             }
             else
