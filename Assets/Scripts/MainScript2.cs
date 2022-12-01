@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 enum GamePhase
 {
@@ -27,6 +28,7 @@ public class MainScript2 : MonoBehaviour
     private float xOffset = 1.73f;
     private float zOffset = 1.5f;
     private GamePhase currentPhase = GamePhase.Player1;
+    [SerializeField] private GameObject pawnInfoUI;
     
     public int level = 1;
     // Start is called before the first frame update
@@ -70,13 +72,15 @@ public class MainScript2 : MonoBehaviour
                     selection.SendMessage("Highlight", true);
 
                     //update UI 
-                    
+                    pawnInfoUI.SetActive(true);
+
 
                 }
             }
             else
             {
-
+                // disable pawn info UI
+                pawnInfoUI.SetActive(false);
                 if (selection && hitInfo.transform.gameObject.tag == "HexTile")
                 {
                     /*

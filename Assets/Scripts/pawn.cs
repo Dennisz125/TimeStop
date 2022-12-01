@@ -23,7 +23,9 @@ public class pawn: MonoBehaviour
     Material original = null;
     public Material Outline;
 
-    [SerializeField]private int teamOwner = 0;
+    [SerializeField] private int teamOwner = 0;
+
+    [SerializeField] private bool isHighlighted = false;
 
     // Start is called before the first frame update
     void Start()
