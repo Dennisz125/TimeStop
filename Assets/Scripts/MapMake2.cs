@@ -44,50 +44,293 @@ public class MapMake2 : MonoBehaviour
                 {
                     xPos += xOffset / 2f;
                 }
-
+                
                 int randomMin = 0;
-                int randomMax = 6;
+                int randomMax = 3;
                 int tile1Match = 0;
                 int tile2Match = 0;
                 int tile3Match = 0;
                 if (x > 0 && y > 0 && x < width - 1 && y < height - 1)
                 {
                     // get tempTile1 = x-1,y-1 tile type
-                    // get tempTile2 = x-1,y tile type
+                    Type tempTileType1 = tileTypesMap[x - 1, y - 1].type;
+                    // get tempTileType2 = x-1,y tile type
+                    Type tempTileType2 = tileTypesMap[x - 1, y].type;
                     // get tempTile3 = x,y-1 tile type
-                    
-                    // if tempTile1 == tile type 1
-                    // tile1Match++
-                    // else if tempTile1 == tile type 2
-                    // tile2Match++
-                    // else if tempTile1 == tile type 3
-                    // tile3Match++
-                    
-                    // repeat for remaining 2 tiles
-                }
-                int randomHexInt = Random.Range(randomMin, randomMax);
+                    Type tempTileType3 = tileTypesMap[x, y - 1].type;
 
-                // if (randomHexInt >= 0 && randomHexInt <= )
-                
-                // Get Temp Model and Type
-                /*switch (randomHexInt)
+                    if (tempTileType1 == Type.Grass)
+                    {
+                        tile1Match++;
+                    } else if (tempTileType1 == Type.Water)
+                    {
+                        tile2Match++;
+                    } else if (tempTileType1 == Type.Desert)
+                    {
+                        tile3Match++;
+                    }
+
+                    if (tempTileType2 == Type.Grass)
+                    {
+                        tile1Match++;
+                    } else if (tempTileType2 == Type.Water)
+                    {
+                        tile2Match++;
+                    } else if (tempTileType2 == Type.Desert)
+                    {
+                        tile3Match++;
+                    }
+                    
+                    if (tempTileType3 == Type.Grass)
+                    {
+                        tile1Match++;
+                    } else if (tempTileType3 == Type.Water)
+                    {
+                        tile2Match++;
+                    } else if (tempTileType3 == Type.Desert)
+                    {
+                        tile3Match++;
+                    }
+
+                    randomMax = 6;
+                    
+                    int randomHexInt = Random.Range(randomMin, randomMax);
+                    
+                    switch (randomHexInt)
+                    {
+                        case 0:
+                            spawnHex = grass_hex;
+                            spawnType = Type.Grass;
+                            break;
+                            
+                        case 1:
+                            spawnHex = water_hex;
+                            spawnType = Type.Water;
+                            isWater= true;
+                            break;
+                        case 2:
+                            spawnHex = desert_hex;
+                            spawnType = Type.Desert;
+                            break;
+                            
+                    }
+                    
+                    if (tile1Match == 1 && tile2Match == 1 && tile3Match == 1)
+                    {
+                        switch (randomHexInt)
+                        {
+                            case 3:
+                                spawnHex = grass_hex;
+                                spawnType = Type.Grass;
+                                break;
+                            
+                            case 4:
+                                spawnHex = water_hex;
+                                spawnType = Type.Water;
+                                isWater= true;
+                                break;
+                            case 5:
+                                spawnHex = desert_hex;
+                                spawnType = Type.Desert;
+                                break;
+                        }
+                    } else if (tile1Match == 2 && tile2Match == 1 && tile3Match == 0)
+                    {
+                        switch (randomHexInt)
+                        {
+                            case 3:
+                                spawnHex = grass_hex;
+                                spawnType = Type.Grass;
+                                break;
+                            
+                            case 4:
+                                spawnHex = grass_hex;
+                                spawnType = Type.Grass;
+                                break;
+                            case 5:
+                                spawnHex = water_hex;
+                                spawnType = Type.Water;
+                                isWater= true;
+                                break;
+                        }
+                    } else if (tile1Match == 3 && tile2Match == 0 && tile3Match == 0)
+                    {
+                        switch (randomHexInt)
+                        {
+                            case 3:
+                                spawnHex = grass_hex;
+                                spawnType = Type.Grass;
+                                break;
+                            
+                            case 4:
+                                spawnHex = grass_hex;
+                                spawnType = Type.Grass;
+                                break;
+                            case 5:
+                                spawnHex = grass_hex;
+                                spawnType = Type.Grass;
+                                break;
+                        }
+                    } else if (tile1Match == 2 && tile2Match == 0 && tile3Match == 1)
+                    {
+                        switch (randomHexInt)
+                        {
+                            case 3:
+                                spawnHex = grass_hex;
+                                spawnType = Type.Grass;
+                                break;
+                            
+                            case 4:
+                                spawnHex = grass_hex;
+                                spawnType = Type.Grass;
+                                break;
+                            case 5:
+                                spawnHex = desert_hex;
+                                spawnType = Type.Desert;
+                                break;
+                        }
+                    } else if (tile1Match == 1 && tile2Match == 2 && tile3Match == 0)
+                    {
+                        switch (randomHexInt)
+                        {
+                            case 3:
+                                spawnHex = grass_hex;
+                                spawnType = Type.Grass;
+                                break;
+                            
+                            case 4:
+                                spawnHex = water_hex;
+                                spawnType = Type.Water;
+                                isWater= true;
+                                break;
+                            case 5:
+                                spawnHex = water_hex;
+                                spawnType = Type.Water;
+                                isWater= true;
+                                break;
+                        }
+                    } else if (tile1Match == 0 && tile2Match == 2 && tile3Match == 1)
+                    {
+                        switch (randomHexInt)
+                        {
+                            case 3:
+                                spawnHex = water_hex;
+                                spawnType = Type.Water;
+                                isWater= true;
+                                break;
+                            case 4:
+                                spawnHex = water_hex;
+                                spawnType = Type.Water;
+                                isWater= true;
+                                break;
+                            case 5:
+                                spawnHex = desert_hex;
+                                spawnType = Type.Desert;
+                                break;
+                        }
+                    } else if (tile1Match == 0 && tile2Match == 3 && tile3Match == 0)
+                    {
+                        switch (randomHexInt)
+                        {
+                            case 3:
+                                spawnHex = water_hex;
+                                spawnType = Type.Water;
+                                isWater= true;
+                                break;
+                            case 4:
+                                spawnHex = water_hex;
+                                spawnType = Type.Water;
+                                isWater= true;
+                                break;
+                            case 5:
+                                spawnHex = water_hex;
+                                spawnType = Type.Water;
+                                isWater= true;
+                                break;
+                        }
+                    } else if (tile1Match == 1 && tile2Match == 0 && tile3Match == 2)
+                    {
+                        switch (randomHexInt)
+                        {
+                            case 3:
+                                spawnHex = grass_hex;
+                                spawnType = Type.Grass;
+                                break;
+                            
+                            case 4:
+                                spawnHex = desert_hex;
+                                spawnType = Type.Desert;
+                                break;
+                            case 5:
+                                spawnHex = desert_hex;
+                                spawnType = Type.Desert;
+                                break;
+                        }
+                    } else if (tile1Match == 0 && tile2Match == 1 && tile3Match == 2)
+                    {
+                        switch (randomHexInt)
+                        {
+                            case 3:
+                                spawnHex = desert_hex;
+                                spawnType = Type.Desert;
+                                break;
+                            case 4:
+                                spawnHex = water_hex;
+                                spawnType = Type.Water;
+                                isWater= true;
+                                break;
+                            case 5:
+                                spawnHex = desert_hex;
+                                spawnType = Type.Desert;
+                                break;
+                        }
+                    } else if (tile1Match == 0 && tile2Match == 0 && tile3Match == 3)
+                    {
+                        switch (randomHexInt)
+                        {
+                            case 3:
+                                spawnHex = desert_hex;
+                                spawnType = Type.Desert;
+                                break;
+                            
+                            case 4:
+                                spawnHex = desert_hex;
+                                spawnType = Type.Desert;
+                                break;
+                            case 5:
+                                spawnHex = desert_hex;
+                                spawnType = Type.Desert;
+                                break;
+                        }
+                    }
+                    
+                }
+                else
                 {
-                    case 0:
-                        spawnHex = grass_hex;
-                        spawnType = Type.Grass;
-                        break;
-                        
-                    case 1:
-                        spawnHex = water_hex;
-                        spawnType = Type.Water;
-                        isWater= true;
-                        break;
-                    case 2:
-                        spawnHex = desert_hex;
-                        spawnType = Type.Desert;
-                        break;
-                        
-                }*/
+                    int randomHexInt = Random.Range(randomMin, randomMax);
+
+                    // Get Temp Model and Type
+                    switch (randomHexInt)
+                    {
+                        case 0:
+                            spawnHex = grass_hex;
+                            spawnType = Type.Grass;
+                            break;
+                            
+                        case 1:
+                            spawnHex = water_hex;
+                            spawnType = Type.Water;
+                            isWater= true;
+                            break;
+                        case 2:
+                            spawnHex = desert_hex;
+                            spawnType = Type.Desert;
+                            break;
+                            
+                    }
+                    
+                }
+
 
                 // Spawns and render new Hex into the Game
                 GameObject hex_tile = Instantiate(spawnHex, new Vector3(xPos, 0, y * zOffset), spawnHex.transform.rotation) as GameObject;
