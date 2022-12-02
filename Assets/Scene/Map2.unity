@@ -2678,13 +2678,15 @@ MonoBehaviour:
   pawnBlue: {fileID: 1862562490292044458, guid: 90a3fd58518cde34ca85e75111411883,
     type: 3}
   redArtillery: {fileID: 0}
-  blueArtillery: {fileID: 0}
+  blueArtillery: {fileID: 8035297072485303439, guid: d24ddb5a8308c7e4e8ef45056d8c6e40,
+    type: 3}
   redBoat: {fileID: 0}
   blueBoat: {fileID: 0}
   redAir: {fileID: 0}
   blueAir: {fileID: 0}
   pickCamera: {fileID: 1258070540}
   map: {fileID: 965508169}
+  selection: {fileID: 0}
   pawnInfoUI: {fileID: 1252271420}
   pawnUIHealth: {fileID: 1110659204}
   pawnUIMovementSpeed: {fileID: 2126026475}
