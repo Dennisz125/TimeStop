@@ -3,7 +3,17 @@ guid: 36ab41891d463ba49ba3239ec352fa0b
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: artilleryMatRed
+    second: {fileID: 2100000, guid: 72911a70dfffc3147ac393a375543a76, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: baseMatRed.001
+    second: {fileID: 2100000, guid: 936a3e94f756e7b4a9df8f89e31d3651, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
