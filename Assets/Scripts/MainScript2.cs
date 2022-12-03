@@ -66,21 +66,39 @@ public class MainScript2 : MonoBehaviour
     private GameStates gameStates = GameStates.player1Turn;
 
 
+
+    private bool gameOver = false;
     // Update is called once per frame
     void Update()
     {
+        if (gameOver) return;
         switch (gameStates)
         {
             case GameStates.player1Turn:
                 playerLoop(0);
-                gameStates = GameStates.player2Turn;
+                    
+                // if player 1 selects "end turn" button, switch to player 2 turn
+                // gameStates = GameStates.player2Turn;
                 break;
             case GameStates.player2Turn:
                 playerLoop(1);
-                gameStates = GameStates.executionTurn;
+                    
+                // if player 2 selects "end turn" button, switch to execution turn
+                //gameStates = GameStates.executionTurn;
                 break;
             case GameStates.executionTurn:
-                gameStates = GameStates.player1Turn;
+                // execution logic ...
+                    
+                // check if a team has won the game
+                (bool, int) winnerTeam = victoryConditions.checkIfTeamWon();
+                if (winnerTeam.Item1)
+                {
+                    print("winner! team:" + winnerTeam.Item2);
+                    gameOver = true;
+                }
+                    
+                // if the game is done executing, switch to player 1 turn
+                //gameStates = GameStates.player1Turn;
                 break;
         }
     }
@@ -94,23 +112,16 @@ public class MainScript2 : MonoBehaviour
 
             if (hit && hitInfo.transform.gameObject.name != "flat" && hitInfo.transform.gameObject.tag != "HexTile")
             {
+                bool selectedPawnFromTeam1 = hitInfo.transform.gameObject &&
+                                             hitInfo.transform.gameObject.GetComponent<pawn>() && hitInfo.transform
+                                                 .gameObject.GetComponent<pawn>().getTeamOwner() == 1;
+                bool selectedPawnFromTeam2 = hitInfo.transform.gameObject &&
+                                             hitInfo.transform.gameObject.GetComponent<pawn>() && hitInfo.transform
+                                                 .gameObject.GetComponent<pawn>().getTeamOwner() == 2;
                 //selection.name = hitInfo.transform.gameObject.name;
-
-                Debug.Log(selection + " has been picked");
-                if (!selection || selection != hitInfo.transform.gameObject)
+                if ((state == 0 && selectedPawnFromTeam1) || (state == 1 && selectedPawnFromTeam2))
                 {
-                    if (selection)
-                    {
-                        selection.SendMessage("Highlight", false);
-                    }
-                    selection = hitInfo.transform.gameObject;
-                    selection.SendMessage("Highlight", true);
-
-                    //update UI 
-                    pawnInfoUI.SetActive(true);
-                    pawnUIHealth.GetComponent<TextMeshProUGUI>().text = hitInfo.transform.gameObject.GetComponent<pawn>().healthPoints.ToString();
-                    pawnUIAttackRange.GetComponent<TextMeshProUGUI>().text = hitInfo.transform.gameObject.GetComponent<pawn>().attackRange.ToString();
-                    pawnUIMovementSpeed.GetComponent<TextMeshProUGUI>().text = hitInfo.transform.gameObject.GetComponent<pawn>().movementSpeed.ToString();
+                    selectPawnHelper(hitInfo);
                 }
             }
             else
@@ -145,15 +156,27 @@ public class MainScript2 : MonoBehaviour
             selection.SendMessage("Highlight", false);
             selection = null;
         }
-       
-        // redChaseBlue();
+
         
-        
-        // check if a team has won the game
-        (bool, int) winnerTeam = victoryConditions.checkIfTeamWon();
-        if (winnerTeam.Item1)
+    }
+
+    private void selectPawnHelper(RaycastHit hitInfo)
+    {
+        Debug.Log(selection + " has been picked");
+        if (!selection || selection != hitInfo.transform.gameObject)
         {
-            print("winner! team:" + winnerTeam.Item2);
+            if (selection)
+            {
+                selection.SendMessage("Highlight", false);
+            }
+            selection = hitInfo.transform.gameObject;
+            selection.SendMessage("Highlight", true);
+    
+            //update UI 
+            pawnInfoUI.SetActive(true);
+            pawnUIHealth.GetComponent<TextMeshProUGUI>().text = hitInfo.transform.gameObject.GetComponent<pawn>().healthPoints.ToString();
+            pawnUIAttackRange.GetComponent<TextMeshProUGUI>().text = hitInfo.transform.gameObject.GetComponent<pawn>().attackRange.ToString();
+            pawnUIMovementSpeed.GetComponent<TextMeshProUGUI>().text = hitInfo.transform.gameObject.GetComponent<pawn>().movementSpeed.ToString();
         }
     }
 
