@@ -57,8 +57,35 @@ public class MainScript2 : MonoBehaviour
         //Breakpoint
     }
 
+    private enum GameStates
+    {
+        player1Turn = 0,
+        player2Turn = 1,
+        executionTurn = 2
+    }
+    private GameStates gameStates = GameStates.player1Turn;
+
+
     // Update is called once per frame
     void Update()
+    {
+        switch (gameStates)
+        {
+            case GameStates.player1Turn:
+                playerLoop(0);
+                gameStates = GameStates.player2Turn;
+                break;
+            case GameStates.player2Turn:
+                playerLoop(1);
+                gameStates = GameStates.executionTurn;
+                break;
+            case GameStates.executionTurn:
+                gameStates = GameStates.player1Turn;
+                break;
+        }
+    }
+
+    void playerLoop(int state)
     {
         if (Input.GetMouseButtonDown(0))
         {
