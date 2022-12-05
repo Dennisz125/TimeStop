@@ -2677,8 +2677,9 @@ MonoBehaviour:
   pawnRed: {fileID: 4961534606265642828, guid: 6ff87d7561d0ad449b2fd7008451dede, type: 3}
   pawnBlue: {fileID: 1862562490292044458, guid: 90a3fd58518cde34ca85e75111411883,
     type: 3}
-  redArtillery: {fileID: 0}
-  blueArtillery: {fileID: 8035297072485303439, guid: d24ddb5a8308c7e4e8ef45056d8c6e40,
+  redArtillery: {fileID: 1129925949368759889, guid: 5f648e629b483804384fd740fba5731b,
+    type: 3}
+  blueArtillery: {fileID: 6588601135982248313, guid: 3b9460663eef2cf43921d0be7c012ed6,
     type: 3}
   redBoat: {fileID: 0}
   blueBoat: {fileID: 0}
@@ -2687,6 +2688,7 @@ MonoBehaviour:
   pickCamera: {fileID: 1258070540}
   map: {fileID: 965508169}
   selection: {fileID: 0}
+  rangeindicatorprefab: {fileID: 0}
   pawnInfoUI: {fileID: 1252271420}
   pawnUIHealth: {fileID: 1110659204}
   pawnUIMovementSpeed: {fileID: 2126026475}
