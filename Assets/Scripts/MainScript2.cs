@@ -22,6 +22,8 @@ public class MainScript2 : MonoBehaviour
 
     public GameObject selection = null;
 
+    public GameObject rangeindicatorprefab;
+
     //Private Variables
     private MapMake2 mapData;
     private VictoryConditions victoryConditions = new VictoryConditions();
@@ -29,7 +31,9 @@ public class MainScript2 : MonoBehaviour
     private float xOffset = 1.73f;
     private float zOffset = 1.5f;
     private GamePhase currentPhase = GamePhase.Player1;
-    
+
+    private GameObject rangeindicator;
+
     // UI related fields
     [SerializeField] private GameObject pawnInfoUI;
     [SerializeField] private GameObject pawnUIHealth;
@@ -146,6 +150,10 @@ public class MainScript2 : MonoBehaviour
                         selectionScript.setPosition(hitInfoPosition);
                         selection.SendMessage("Highlight", false);
                         selection = null;
+                        if (rangeindicator)
+                        {
+                            Destroy(rangeindicator);
+                        }
                     }
                     
                 }
@@ -155,6 +163,10 @@ public class MainScript2 : MonoBehaviour
         {
             selection.SendMessage("Highlight", false);
             selection = null;
+            if (rangeindicator)
+            {
+                Destroy(rangeindicator);
+            }
         }
 
         
@@ -168,10 +180,24 @@ public class MainScript2 : MonoBehaviour
             if (selection)
             {
                 selection.SendMessage("Highlight", false);
+
+                if (rangeindicator)
+                {
+                    Destroy(rangeindicator);
+                }
             }
             selection = hitInfo.transform.gameObject;
+
             selection.SendMessage("Highlight", true);
-    
+
+            //show range
+            Range rangeind = rangeindicatorprefab.GetComponent<Range>();
+            pawn pawnscript = selection.GetComponent<pawn>();
+            rangeind.range = pawnscript.attackRange;
+            rangeind.currentlocation = selection.transform.position;
+            rangeindicator = Instantiate(rangeindicatorprefab);
+
+
             //update UI 
             pawnInfoUI.SetActive(true);
             pawnUIHealth.GetComponent<TextMeshProUGUI>().text = hitInfo.transform.gameObject.GetComponent<pawn>().healthPoints.ToString();
