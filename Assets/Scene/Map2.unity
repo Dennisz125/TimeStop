@@ -2222,6 +2222,51 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8073715931222289764, guid: 4a43480431958bb4ebecd5bd84fad9c1,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8073715931222289764, guid: 4a43480431958bb4ebecd5bd84fad9c1,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8073715931222289764, guid: 4a43480431958bb4ebecd5bd84fad9c1,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8073715931222289764, guid: 4a43480431958bb4ebecd5bd84fad9c1,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1125484640}
+    - target: {fileID: 8073715931222289764, guid: 4a43480431958bb4ebecd5bd84fad9c1,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8073715931222289764, guid: 4a43480431958bb4ebecd5bd84fad9c1,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8073715931222289764, guid: 4a43480431958bb4ebecd5bd84fad9c1,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: endTurnFunction
+      objectReference: {fileID: 0}
+    - target: {fileID: 8073715931222289764, guid: 4a43480431958bb4ebecd5bd84fad9c1,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MainScript2, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8073715931222289764, guid: 4a43480431958bb4ebecd5bd84fad9c1,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4a43480431958bb4ebecd5bd84fad9c1, type: 3}
 --- !u!1001 &846962214
@@ -2628,6 +2673,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1110659204}
   m_CullTransparentMesh: 1
+--- !u!114 &1113567680 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8074374214659021414, guid: 9462317a0f66cb84f846dffba479aed1,
+    type: 3}
+  m_PrefabInstance: {fileID: 846962214}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1125484638
 GameObject:
   m_ObjectHideFlags: 0
@@ -2688,11 +2745,14 @@ MonoBehaviour:
   pickCamera: {fileID: 1258070540}
   map: {fileID: 965508169}
   selection: {fileID: 0}
-  rangeindicatorprefab: {fileID: 0}
+  rangeindicatorprefab: {fileID: 1920232873742176999, guid: 0196050e34341b14c872a3c0e6f87832,
+    type: 3}
   pawnInfoUI: {fileID: 1252271420}
   pawnUIHealth: {fileID: 1110659204}
   pawnUIMovementSpeed: {fileID: 2126026475}
   pawnUIAttackRange: {fileID: 383124433}
+  turnInfo: {fileID: 1113567680}
+  roundInfo: {fileID: 1577623929}
   level: 1
 --- !u!1 &1171948783
 GameObject:
@@ -3148,6 +3208,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1575217640}
   m_CullTransparentMesh: 0
+--- !u!114 &1577623929 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1491306831849090505, guid: 237a5c6af8ea0d14487bdcdec62dd7dd,
+    type: 3}
+  m_PrefabInstance: {fileID: 1585555211}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1584093435
 GameObject:
   m_ObjectHideFlags: 0

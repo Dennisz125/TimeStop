@@ -39,9 +39,13 @@ public class MainScript2 : MonoBehaviour
     [SerializeField] private GameObject pawnUIHealth;
     [SerializeField] private GameObject pawnUIMovementSpeed;
     [SerializeField] private GameObject pawnUIAttackRange;
+    [SerializeField] private TextMeshProUGUI turnInfo;
+    [SerializeField] private TextMeshProUGUI roundInfo;
 
-    
+
     public int level = 1;
+    private int roundNum;
+    private bool endTurn = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -53,11 +57,13 @@ public class MainScript2 : MonoBehaviour
         spawnNewPieceAt(pawnBlue, new Vector2Int(0, 0), blueTeam);
         spawnNewPieceAt(pawnRed, new Vector2Int(3, 0), redTeam);
         pawnInfoUI.SetActive(false);
+        roundNum = 1;
+        roundInfo.text = "Round " + roundNum;
 
         //spawnBlueOnGrass();
         //spawnBlueOnGrass();
         ////Get the script from the object
-        
+
         //Breakpoint
     }
 
@@ -80,15 +86,29 @@ public class MainScript2 : MonoBehaviour
         {
             case GameStates.player1Turn:
                 playerLoop(0);
+                turnInfo.text = "Player 1's Turn";
                     
                 // if player 1 selects "end turn" button, switch to player 2 turn
                 // gameStates = GameStates.player2Turn;
+                if(endTurn)
+                {
+                    gameStates = GameStates.player2Turn;
+                    endTurn = false;
+                }
                 break;
             case GameStates.player2Turn:
                 playerLoop(1);
-                    
+                turnInfo.text = "Player 2's Turn";
+
+
                 // if player 2 selects "end turn" button, switch to execution turn
                 //gameStates = GameStates.executionTurn;
+                if (endTurn)
+                {
+                    gameStates = GameStates.executionTurn;
+                    endTurn = false;
+                    roundNum++;
+                }
                 break;
             case GameStates.executionTurn:
                 // execution logic ...
@@ -97,8 +117,13 @@ public class MainScript2 : MonoBehaviour
                 (bool, int) winnerTeam = victoryConditions.checkIfTeamWon();
                 if (winnerTeam.Item1)
                 {
-                    print("winner! team:" + winnerTeam.Item2);
+                    //print("winner! team:" + winnerTeam.Item2);
+                    turnInfo.text = "winner! team:" + winnerTeam.Item2;
                     gameOver = true;
+                }
+                else
+                {
+                    gameStates = GameStates.player1Turn;
                 }
                     
                 // if the game is done executing, switch to player 1 turn
@@ -230,6 +255,13 @@ public class MainScript2 : MonoBehaviour
         newPawnScript.makeNeighbors();
         
     }
+
+
+    public void endTurnFunction()
+    {
+        endTurn = true;
+    }
+
 
     void printTileTypeMap()
     {
