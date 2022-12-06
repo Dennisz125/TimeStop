@@ -31,6 +31,7 @@ public class MainScript2 : MonoBehaviour
     private float xOffset = 1.73f;
     private float zOffset = 1.5f;
     private GamePhase currentPhase = GamePhase.Player1;
+    [SerializeField] private ChangeTurn changeTurnScript;
 
   
 
@@ -94,6 +95,7 @@ public class MainScript2 : MonoBehaviour
                 // gameStates = GameStates.player2Turn;
                 if(endTurn)
                 {
+                    changeTurnScript.FadeToNextTurn();
                     gameStates = GameStates.player2Turn;
                     endTurn = false;
                 }
@@ -107,6 +109,7 @@ public class MainScript2 : MonoBehaviour
                 //gameStates = GameStates.executionTurn;
                 if (endTurn)
                 {
+                    changeTurnScript.FadeToNextTurn();
                     gameStates = GameStates.executionTurn;
                     endTurn = false;
                     roundNum++;
@@ -127,6 +130,7 @@ public class MainScript2 : MonoBehaviour
                 }
                 else
                 {
+                    changeTurnScript.FadeToNextTurn();
                     gameStates = GameStates.player1Turn;
                 }
                     
