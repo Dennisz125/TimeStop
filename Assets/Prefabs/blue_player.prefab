@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -659526665948003738}
   m_Layer: 0
   m_Name: blue_player
-  m_TagString: Untagged
+  m_TagString: Blue Pawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -98,10 +98,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af1deea6ce821df4883f9b6f267d33ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  neighbors: []
+  tileX: 0
+  tileY: 0
   healthPoints: 100
   actionPoints: 10
+  attackRange: 1
+  movementSpeed: 1
   Outline: {fileID: 2100000, guid: 74f71919674528641a917db335a04df8, type: 2}
+  Ghost: {fileID: 2100000, guid: 38ddcacfdeaba024296dffd10f58ea39, type: 2}
+  isGhost: 0
   teamOwner: 0
+  isHighlighted: 0
 --- !u!135 &5985030005631965004
 SphereCollider:
   m_ObjectHideFlags: 0

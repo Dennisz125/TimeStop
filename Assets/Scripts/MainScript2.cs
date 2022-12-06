@@ -32,6 +32,8 @@ public class MainScript2 : MonoBehaviour
     private float zOffset = 1.5f;
     private GamePhase currentPhase = GamePhase.Player1;
 
+  
+
     private GameObject rangeindicator;
 
     // UI related fields
@@ -112,7 +114,9 @@ public class MainScript2 : MonoBehaviour
                 break;
             case GameStates.executionTurn:
                 // execution logic ...
-                    
+
+                execution();
+
                 // check if a team has won the game
                 (bool, int) winnerTeam = victoryConditions.checkIfTeamWon();
                 if (winnerTeam.Item1)
@@ -169,17 +173,41 @@ public class MainScript2 : MonoBehaviour
 
                     Vector2Int hitInfoPosition = hitInfoScript.getTileXYPosition();
                     selectionScript.makeNeighbors();
-                    if(selectionScript.checkNeighbors(hitInfoPosition))
+
+
+
+                    //check if ghost
+                   
+
+                if (selectionScript.checkNeighbors(hitInfoPosition))
                     {
+                        
+                        if (!selectionScript.isGhost)
+                        {
+                            if (selectionScript.getTeamOwner() == 1)
+                            {
+                                selectionScript.setfrom(spawnNewPieceAt(pawnBlue, selectionScript.getPosition(), blueTeam));
+                                
+                            }
+                            else if (selectionScript.getTeamOwner() == 2)
+                            {
+                                selectionScript.setfrom(spawnNewPieceAt(pawnRed, selectionScript.getPosition(), redTeam));
+                            }
+                        }
+
                         selection.transform.position = hitInfo.transform.position;
                         selectionScript.setPosition(hitInfoPosition);
                         selection.SendMessage("Highlight", false);
+                        //ghost pawn
+                        if (!selectionScript.isGhost) selectionScript.isGhost = true;
+                        selectionScript.beGhost();
                         selection = null;
                         if (rangeindicator)
                         {
                             Destroy(rangeindicator);
                         }
-                    }
+                     }
+                    
                     
                 }
             }
@@ -195,6 +223,11 @@ public class MainScript2 : MonoBehaviour
         }
 
         
+    }
+
+    void execution()
+    {
+
     }
 
     private void selectPawnHelper(RaycastHit hitInfo)
@@ -232,9 +265,9 @@ public class MainScript2 : MonoBehaviour
     }
 
 
-    void spawnNewPieceAt(GameObject newObject, Vector2Int newPosition, Transform parent)
+    GameObject spawnNewPieceAt(GameObject newObject, Vector2Int newPosition, Transform parent)
     {
-        if (newObject == null || newPosition == null) return;
+        if (newObject == null || newPosition == null) return null;
         float xPos = newPosition.x * xOffset;
         // On the odd row
         if (newPosition.y % 2 == 1)
@@ -248,18 +281,51 @@ public class MainScript2 : MonoBehaviour
         if (parent == this.blueTeam)
         {
             newPawnScript.setTeamOwner(1);
+           
         } else if (parent == this.redTeam)
         {
             newPawnScript.setTeamOwner(2);
+            
         }
         newPawnScript.makeNeighbors();
-        
+
+        return newSpawn;
     }
 
 
     public void endTurnFunction()
     {
         endTurn = true;
+    }
+
+    public void MovePawn ()
+    {
+        if (gameStates == GameStates.player1Turn)
+        {
+            GameObject[] gos = GameObject.FindGameObjectsWithTag("Blue Pawn");
+            foreach (GameObject go in gos)
+            {
+                pawn pawnscript;
+                go.TryGetComponent<pawn>(out pawnscript);
+                if (pawnscript.isGhost)
+                {
+                    pawnscript.Move();
+                }
+            }
+        }
+        else if (gameStates == GameStates.player2Turn)
+        {
+            GameObject[] gos = GameObject.FindGameObjectsWithTag("Red Pawn");
+            foreach (GameObject go in gos)
+            {
+                pawn pawnscript;
+                go.TryGetComponent<pawn>(out pawnscript);
+                if (pawnscript.isGhost)
+                {
+                    pawnscript.Move();
+                }
+            }
+        }
     }
 
 

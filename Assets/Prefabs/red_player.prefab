@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -4032148795666756140}
   m_Layer: 0
   m_Name: red_player
-  m_TagString: Untagged
+  m_TagString: Red Pawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -98,10 +98,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af1deea6ce821df4883f9b6f267d33ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  neighbors: []
+  tileX: 0
+  tileY: 0
   healthPoints: 100
   actionPoints: 10
+  attackRange: 1
+  movementSpeed: 1
   Outline: {fileID: 2100000, guid: 73c7ac10a76a4de43a2eafe0c4391257, type: 2}
+  Ghost: {fileID: 2100000, guid: c2e41978814a5684ebfbd4b4d21d2d4b, type: 2}
+  isGhost: 0
   teamOwner: 0
+  isHighlighted: 0
 --- !u!135 &7656235719391877879
 SphereCollider:
   m_ObjectHideFlags: 0

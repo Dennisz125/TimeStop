@@ -14,6 +14,7 @@ public class pawn: MonoBehaviour
     Vector3 target, deltaV;
     bool inMotion;
     float speed;
+   
     [SerializeField] Vector2Int[] neighbors;
 
     [SerializeField] int tileX, tileY;
@@ -24,6 +25,12 @@ public class pawn: MonoBehaviour
 
     Material original = null;
     public Material Outline;
+    
+    public Material Ghost;
+
+    public bool isGhost;
+
+    [SerializeField] private GameObject from;
 
     [SerializeField] private int teamOwner = 0;
 
@@ -45,6 +52,7 @@ public class pawn: MonoBehaviour
 
         inMotion = false;
         neighbors = new Vector2Int[6];
+       
     }
     
     public void setTeamOwner(int teamOwner)
@@ -101,6 +109,7 @@ public class pawn: MonoBehaviour
             // assumes that deltaV is normalized
             transform.Translate(deltaV * Time.deltaTime * speed, Space.World);
         }
+        
     }
 
     void Highlight(bool state)
@@ -126,6 +135,13 @@ public class pawn: MonoBehaviour
             setTarget(dest);
             
         }
+    }
+
+    public void beGhost()
+    {
+       
+        GetComponent<Renderer>().material = Ghost;
+        
     }
 
     //Detect collisions between the GameObjects with Colliders attached
@@ -212,5 +228,22 @@ public class pawn: MonoBehaviour
             if (neighbor.x == position.x && neighbor.y == position.y) return true;
         }
         return false;
+    }
+
+    public void setfrom(GameObject go)
+    {
+        from = go;
+    }
+
+    public void Move()
+    {
+        if (isGhost)
+        {
+
+            from.transform.position = Vector3.Lerp(from.transform.position, transform.position, Time.time);
+            from.GetComponent<pawn>().setPosition(new Vector2Int(tileX, tileY));
+        }
+
+        Destroy(this.gameObject);
     }
 }

@@ -2022,6 +2022,41 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3820858716884577703, guid: 4a43480431958bb4ebecd5bd84fad9c1,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3820858716884577703, guid: 4a43480431958bb4ebecd5bd84fad9c1,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3820858716884577703, guid: 4a43480431958bb4ebecd5bd84fad9c1,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1125484640}
+    - target: {fileID: 3820858716884577703, guid: 4a43480431958bb4ebecd5bd84fad9c1,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3820858716884577703, guid: 4a43480431958bb4ebecd5bd84fad9c1,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: MovePawn
+      objectReference: {fileID: 0}
+    - target: {fileID: 3820858716884577703, guid: 4a43480431958bb4ebecd5bd84fad9c1,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MainScript2, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3820858716884577703, guid: 4a43480431958bb4ebecd5bd84fad9c1,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 4250603328182776205, guid: 4a43480431958bb4ebecd5bd84fad9c1,
         type: 3}
       propertyPath: m_AnchorMax.x
