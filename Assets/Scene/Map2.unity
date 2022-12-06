@@ -2723,6 +2723,7 @@ MonoBehaviour:
   pickCamera: {fileID: 1258070540}
   map: {fileID: 965508169}
   selection: {fileID: 0}
+  changeTurnScript: {fileID: 695780022}
   pawnInfoUI: {fileID: 1252271420}
   pawnUIHealth: {fileID: 1110659204}
   pawnUIMovementSpeed: {fileID: 2126026475}

@@ -15,11 +15,8 @@ public class MainScript2 : MonoBehaviour
 {
     public Transform blueTeam, redTeam;
     public GameObject pawnRed, pawnBlue, redArtillery, blueArtillery, redBoat, blueBoat, redAir, blueAir;
-
     public Camera pickCamera;
-
     public GameObject map;
-
     public GameObject selection = null;
 
     //Private Variables
@@ -29,6 +26,7 @@ public class MainScript2 : MonoBehaviour
     private float xOffset = 1.73f;
     private float zOffset = 1.5f;
     private GamePhase currentPhase = GamePhase.Player1;
+    [SerializeField] private ChangeTurn changeTurnScript;
     
     // UI related fields
     [SerializeField] private GameObject pawnInfoUI;
@@ -77,13 +75,15 @@ public class MainScript2 : MonoBehaviour
             case GameStates.player1Turn:
                 playerLoop(0);
                     
-                // if player 1 selects "end turn" button, switch to player 2 turn
+                // if player 1 selects "end turn" button, switch to player 2 turn:
+                // changeTurnScript.FadeToNextTurn();
                 // gameStates = GameStates.player2Turn;
                 break;
             case GameStates.player2Turn:
                 playerLoop(1);
                     
                 // if player 2 selects "end turn" button, switch to execution turn
+                // changeTurnScript.FadeToNextTurn();
                 //gameStates = GameStates.executionTurn;
                 break;
             case GameStates.executionTurn:
@@ -98,6 +98,7 @@ public class MainScript2 : MonoBehaviour
                 }
                     
                 // if the game is done executing, switch to player 1 turn
+                // changeTurnScript.FadeToNextTurn();
                 //gameStates = GameStates.player1Turn;
                 break;
         }
