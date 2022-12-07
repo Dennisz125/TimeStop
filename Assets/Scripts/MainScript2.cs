@@ -32,6 +32,7 @@ public class MainScript2 : MonoBehaviour
     private float zOffset = 1.5f;
     private GamePhase currentPhase = GamePhase.Player1;
     [SerializeField] private ChangeTurn changeTurnScript;
+    [SerializeField] private GameObject playerWonCanvas;
 
   
 
@@ -62,6 +63,8 @@ public class MainScript2 : MonoBehaviour
         pawnInfoUI.SetActive(false);
         roundNum = 1;
         roundInfo.text = "Round " + roundNum;
+        
+        playerWonCanvas.SetActive(false);
 
         //spawnBlueOnGrass();
         //spawnBlueOnGrass();
@@ -127,6 +130,9 @@ public class MainScript2 : MonoBehaviour
                     //print("winner! team:" + winnerTeam.Item2);
                     turnInfo.text = "winner! team:" + winnerTeam.Item2;
                     gameOver = true;
+                    playerWonCanvas.SetActive(true);
+                    string wonText = "Player " + winnerTeam.Item2 + " won!";
+                    playerWonCanvas.GetComponentInChildren<TextMeshProUGUI>().SetText(wonText);
                 }
                 else
                 {
@@ -336,5 +342,10 @@ public class MainScript2 : MonoBehaviour
     void printTileTypeMap()
     {
 
+    }
+
+    public void restartGame()
+    {
+        Application.LoadLevel(Application.loadedLevel);
     }
 }
