@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -6,16 +7,25 @@ using UnityEngine.UIElements;
 
 public class CameraScript : MonoBehaviour
 {
+    private Vector3 Origin;
+
+    private bool drag = false;
+    private float mapMinX, mapMaxX, mapMinZ, mapMaxZ;
+
+    [SerializeField] private Camera Camera;
     // Start is called before the first frame update
     void Start()
     {
-
+        mapMinX = 4;
+        mapMaxX = 38;
+        mapMinZ = 0;
+        mapMaxZ = 20;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        PanCamera();
         float xval = Input.GetAxis("Horizontal");
         float yval = Input.GetAxis("Zoom");
         float fwdIn = Input.GetAxis("Vertical");
@@ -35,6 +45,36 @@ public class CameraScript : MonoBehaviour
         {
             transform.RotateAround(transform.position, Vector3.up, -r2val);
         }
+    }
+
+    private void PanCamera()
+    {
+        if(Input.GetMouseButtonDown(0))
+        {
+            Origin = Camera.ScreenToViewportPoint(Input.mousePosition);
+
+        }
+        if(Input.GetMouseButton(0))
+        {
+            Vector3 Difference = new Vector3(Origin.x - Camera.ScreenToViewportPoint(Input.mousePosition).x, 0, Origin.y - Camera.ScreenToViewportPoint(Input.mousePosition).y);
+            Camera.transform.position = ClampCamera(Camera.transform.position + Difference);
+        }
+    }
+
+    private Vector3 ClampCamera(Vector3 targetPosition)
+    {
+        float camHeight = Camera.orthographicSize;
+        float camWidth = Camera.orthographicSize * Camera.aspect;
+
+        float minX = mapMinX + camWidth;
+        float maxX = mapMaxX - camWidth;
+        float minZ = mapMinZ + camHeight;
+        float maxZ = mapMaxZ - camHeight;
+
+        float newX = Mathf.Clamp(targetPosition.x, minX, maxX);
+        float newZ = Mathf.Clamp(targetPosition.z, minZ, maxZ);
+
+        return new Vector3(newX, targetPosition.y, newZ);
     }
     public void focusCamera(Vector3 position)
     {
