@@ -334,7 +334,11 @@ public class MapMake2 : MonoBehaviour
 
                 // Spawns and render new Hex into the Game
                 GameObject hex_tile = Instantiate(spawnHex, new Vector3(xPos, 0, y * zOffset), spawnHex.transform.rotation) as GameObject;
-                var meshCollider = hex_tile.AddComponent<MeshCollider>();
+                if(hex_tile.transform.childCount > 0)
+                {
+                    hex_tile = hex_tile.transform.GetChild(0).gameObject;
+                }
+                _ = hex_tile.AddComponent<MeshCollider>();
 
                 // Set Name and Tag, Set Current Object using this script as parent
                 hex_tile.gameObject.tag = "HexTile";

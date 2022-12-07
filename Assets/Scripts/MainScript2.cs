@@ -37,8 +37,9 @@ public class MainScript2 : MonoBehaviour
     [SerializeField] private ChangeTurn changeTurnScript;
     [SerializeField] private GameObject playerWonCanvas;
 
-  
-
+    [SerializeField] private GameObject explosionparticles;
+    
+ 
     private GameObject rangeindicator;
 
     // UI related fields
@@ -49,6 +50,9 @@ public class MainScript2 : MonoBehaviour
     [SerializeField] private TextMeshProUGUI turnInfo;
     [SerializeField] private TextMeshProUGUI roundInfo;
     [SerializeField] private TextMeshProUGUI actionInfo;
+    private static bool gameIsPaused = false;
+    private float defaultPauseTime = 2.5f;
+    private float pauseTime = 2.5f;
 
 
     public int level = 1;
@@ -61,9 +65,29 @@ public class MainScript2 : MonoBehaviour
         mapData = map.GetComponent<MapMake2>();
         mapData.MapMake(level);
 
-        spawnNewPieceAt(pawnBlue, new Vector2Int(0, 1), blueTeam);
-        spawnNewPieceAt(pawnBlue, new Vector2Int(0, 0), blueTeam);
-        spawnNewPieceAt(pawnRed, new Vector2Int(3, 0), redTeam);
+        // spawning blue army
+        spawnNewPieceAt(pawnBlue, new Vector2Int(2, 0), blueTeam);
+        spawnNewPieceAt(pawnBlue, new Vector2Int(2, 1), blueTeam);
+        spawnNewPieceAt(pawnBlue, new Vector2Int(2, 2), blueTeam);
+        spawnNewPieceAt(pawnBlue, new Vector2Int(2, 3), blueTeam);
+        spawnNewPieceAt(pawnBlue, new Vector2Int(2, 4), blueTeam);
+        spawnNewPieceAt(pawnBlue, new Vector2Int(2, 5), blueTeam);
+        spawnNewPieceAt(pawnBlue, new Vector2Int(2, 6), blueTeam);
+        spawnNewPieceAt(blueArtillery, new Vector2Int(1, 2), blueTeam);
+        spawnNewPieceAt(blueArtillery, new Vector2Int(1, 3), blueTeam);
+        spawnNewPieceAt(blueArtillery, new Vector2Int(1, 4), blueTeam);
+
+        // spawning red army
+        spawnNewPieceAt(pawnRed, new Vector2Int(4, 0), redTeam);
+        spawnNewPieceAt(pawnRed, new Vector2Int(4, 1), redTeam);
+        spawnNewPieceAt(pawnRed, new Vector2Int(4, 2), redTeam);
+        spawnNewPieceAt(pawnRed, new Vector2Int(4, 3), redTeam);
+        spawnNewPieceAt(pawnRed, new Vector2Int(4, 4), redTeam);
+        spawnNewPieceAt(pawnRed, new Vector2Int(4, 5), redTeam);
+        spawnNewPieceAt(pawnRed, new Vector2Int(4, 6), redTeam);
+        spawnNewPieceAt(redArtillery, new Vector2Int(5, 2), redTeam);
+        spawnNewPieceAt(redArtillery, new Vector2Int(5, 3), redTeam);
+        spawnNewPieceAt(redArtillery, new Vector2Int(5, 4), redTeam);
         pawnInfoUI.SetActive(false);
         roundNum = 1;
         roundInfo.text = "Round " + roundNum;
@@ -91,7 +115,13 @@ public class MainScript2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gameOver) return;
+        if (gameOver) { return; }
+
+        if (gameIsPaused)
+        {
+            decrementPauseTimer();
+            return;
+        }
         switch (gameStates)
         {
             case GameStates.player1Turn:
@@ -99,9 +129,6 @@ public class MainScript2 : MonoBehaviour
                 turnInfo.text = "Player 1's Turn";
                 actionInfo.text = actionpoints.ToString();
                 roundInfo.text = "Round " + roundNum;
-
-                // if player 1 selects "end turn" button, switch to player 2 turn
-                // gameStates = GameStates.player2Turn;
                 if (endTurn)
                 {
                     changeTurnScript.FadeToNextTurn();
@@ -115,15 +142,13 @@ public class MainScript2 : MonoBehaviour
                     gameStates = GameStates.player2Turn;
                     endTurn = false;
                     actionpoints = 10;
+                    gameIsPaused = true;
                 }
                 break;
             case GameStates.player2Turn:
                 playerLoop(1);
                 turnInfo.text = "Player 2's Turn";
                 actionInfo.text = actionpoints.ToString();
-
-                // if player 2 selects "end turn" button, switch to execution turn
-                //gameStates = GameStates.executionTurn;
                 if (endTurn)
                 {
                     changeTurnScript.FadeToNextTurn();
@@ -137,45 +162,98 @@ public class MainScript2 : MonoBehaviour
                     gameStates = GameStates.executionTurn;
                     endTurn = false;
                     actionpoints = 10;
+                    gameIsPaused = true;
                 }
                 break;
             case GameStates.executionTurn:
                 // execution logic ...
-
-                execution();
-
                 turnInfo.text = "Executing";
 
+                execution();
+                recalculateTeamPawns();
+
                 // check if a team has won the game
-                (bool, int) winnerTeam = victoryConditions.checkIfTeamWon();
-                if (winnerTeam.Item1)
-                {
-                    //print("winner! team:" + winnerTeam.Item2);
-                    turnInfo.text = "winner! team:" + winnerTeam.Item2;
-                    gameOver = true;
-                    playerWonCanvas.SetActive(true);
-                    string wonText = "Player " + winnerTeam.Item2 + " won!";
-                    playerWonCanvas.GetComponentInChildren<TextMeshProUGUI>().SetText(wonText);
-                }
-                else
-                {
-                    changeTurnScript.FadeToNextTurn();
-                    gameStates = GameStates.player1Turn;
-                    roundNum++;
-                }
-                    
-                // if the game is done executing, switch to player 1 turn
-                //gameStates = GameStates.player1Turn;
+                int redTeamCount = redTeam.transform.childCount;
+                int blueTeamCount = blueTeam.transform.childCount;
+                print("Red Team Count:" + redTeamCount);
+                print("Blue Team Count:" + blueTeamCount);
+                checkIfTeamWon(blueTeamCount, redTeamCount);
+
                 break;
         }
     }
 
+    private void decrementPauseTimer()
+    {
+        pauseTime -= Time.deltaTime;
+        if (pauseTime <= 0)
+        {
+            gameIsPaused = false;
+            pauseTime = defaultPauseTime;
+        }
+    }
+
+    void checkIfTeamWon(int blueTeamCount, int redTeamCount)
+    {
+        if (blueTeamCount == 0 && redTeamCount != 0)
+        {
+            print("Player 2 wins");
+            turnInfo.text = "Player 2 Wins";
+            gameOver = true;
+            playerWonCanvas.SetActive(true);
+            string wonText = "Player 2 won!";
+            playerWonCanvas.GetComponentInChildren<TextMeshProUGUI>().SetText(wonText);
+        }
+        else if (blueTeamCount != 0 && redTeamCount == 0)
+        {
+            print("Player 1 wins");
+            turnInfo.text = "Player 1 Wins";
+            gameOver = true;
+            playerWonCanvas.SetActive(true);
+            string wonText = "Player 1 won!";
+            playerWonCanvas.GetComponentInChildren<TextMeshProUGUI>().SetText(wonText);
+        }
+        if (blueTeamCount == 0 && redTeamCount == 0)
+        {
+            print("Tie");
+            turnInfo.text = "Tie";
+            gameOver = true;
+            playerWonCanvas.SetActive(true);
+            string wonText = "Tie!";
+            playerWonCanvas.GetComponentInChildren<TextMeshProUGUI>().SetText(wonText);
+        }
+        else
+        {
+            //changeTurnScript.FadeToNextTurn();
+            gameStates = GameStates.player1Turn;
+            roundNum++;
+        }
+    }
+
+    void recalculateTeamPawns()
+    {
+        foreach (Transform child in redTeam.transform)
+        {
+            if (child.GetComponent<pawn>().healthPoints <= 0)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+        foreach (Transform child in blueTeam.transform)
+        {
+            if (child.GetComponent<pawn>().healthPoints <= 0)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+    }
+    
     void playerLoop(int state)
     {
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit hitInfo = new RaycastHit();
-            bool hit = Physics.Raycast(pickCamera.ScreenPointToRay(Input.mousePosition), out hitInfo);
+            bool hit = Physics.Raycast(pickCamera.ScreenPointToRay(Input.mousePosition), out hitInfo, Mathf.Infinity, ~2);
 
             if (hit && hitInfo.transform.gameObject.name != "flat" && hitInfo.transform.gameObject.tag != "HexTile")
             {
@@ -234,6 +312,8 @@ public class MainScript2 : MonoBehaviour
                             selection.transform.position = hitInfo.transform.position;
                             selectionScript.setPosition(hitInfoPosition);
                             selection.SendMessage("Highlight", false);
+                            
+                            
                             //ghost pawn
                             if (!selectionScript.isGhost) selectionScript.isGhost = true;
                             selectionScript.beGhost();
@@ -287,6 +367,7 @@ public class MainScript2 : MonoBehaviour
                     {
                         --blueScript.healthPoints;
                         --redScript.healthPoints;
+                        PlayFireParticle(blue.position);
                         continue;
                     }
                 }
@@ -390,6 +471,20 @@ public class MainScript2 : MonoBehaviour
                 }
             }
         
+    }
+
+
+    GameObject PlayFireParticle(Vector3 position)
+    {
+        var emitParams = new ParticleSystem.EmitParams();
+        emitParams.position = position;
+        emitParams.velocity = new Vector3(0.0f, 0.0f, -2.0f);
+
+        GameObject particles = Instantiate(explosionparticles, position, explosionparticles.transform.rotation);
+
+        explosionparticles.GetComponent<ParticleSystem>().Emit(emitParams, 1);
+
+        return particles;
     }
 
 

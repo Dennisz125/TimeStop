@@ -237,9 +237,8 @@ public class pawn: MonoBehaviour
 
     public void Move()
     {
-        if (isGhost)
+        if (isGhost /*&& from != null*/)
         {
-
             from.transform.position = Vector3.Lerp(from.transform.position, transform.position, Time.time);
             from.GetComponent<pawn>().setPosition(new Vector2Int(tileX, tileY));
         }
