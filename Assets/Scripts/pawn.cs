@@ -246,4 +246,9 @@ public class pawn: MonoBehaviour
 
         Destroy(this.gameObject);
     }
+
+    public Vector2Int[] getNeighbors()
+    {
+        return neighbors;
+    }
 }

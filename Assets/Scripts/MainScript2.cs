@@ -253,6 +253,32 @@ public class MainScript2 : MonoBehaviour
     void execution()
     {
         MovePawn();
+        //For every blue pawn in the team
+        foreach (Transform blue in this.blueTeam)
+        {
+            pawn blueScript = blue.GetComponent<pawn>();
+            blueScript.makeNeighbors();
+
+            //For every red pawn in the team
+            foreach (Transform red in this.redTeam)
+            {
+                pawn redScript = red.GetComponent<pawn>();
+                redScript.makeNeighbors();
+                //if red and blue are next to each other, then they both attack
+                Vector2Int[] temp = blueScript.getNeighbors();
+                Vector2Int redPos = redScript.getPosition();
+                foreach (Vector2Int bluePos in temp)
+                {
+                    if (bluePos == redPos)
+                    {
+                        --blueScript.healthPoints;
+                        --redScript.healthPoints;
+                        continue;
+                    }
+                }
+                
+            }
+        }
     }
 
     private void selectPawnHelper(RaycastHit hitInfo)
