@@ -66,28 +66,28 @@ public class MainScript2 : MonoBehaviour
         mapData.MapMake(level);
 
         // spawning blue army
-        spawnNewPieceAt(pawnBlue, new Vector2Int(2, 0), blueTeam);
-        spawnNewPieceAt(pawnBlue, new Vector2Int(2, 1), blueTeam);
-        spawnNewPieceAt(pawnBlue, new Vector2Int(2, 2), blueTeam);
-        spawnNewPieceAt(pawnBlue, new Vector2Int(2, 3), blueTeam);
-        spawnNewPieceAt(pawnBlue, new Vector2Int(2, 4), blueTeam);
-        spawnNewPieceAt(pawnBlue, new Vector2Int(2, 5), blueTeam);
-        spawnNewPieceAt(pawnBlue, new Vector2Int(2, 6), blueTeam);
-        spawnNewPieceAt(blueArtillery, new Vector2Int(1, 2), blueTeam);
-        spawnNewPieceAt(blueArtillery, new Vector2Int(1, 3), blueTeam);
-        spawnNewPieceAt(blueArtillery, new Vector2Int(1, 4), blueTeam);
+        spawnNewPieceAt(pawnBlue, new Vector2Int(4, 2), blueTeam);
+        spawnNewPieceAt(pawnBlue, new Vector2Int(4, 4), blueTeam);
+        spawnNewPieceAt(pawnBlue, new Vector2Int(4, 6), blueTeam);
+        spawnNewPieceAt(pawnBlue, new Vector2Int(4, 8), blueTeam);
+        spawnNewPieceAt(pawnBlue, new Vector2Int(4, 10), blueTeam);
+        spawnNewPieceAt(pawnBlue, new Vector2Int(4, 12), blueTeam);
+        spawnNewPieceAt(pawnBlue, new Vector2Int(4, 14), blueTeam);
+        spawnNewPieceAt(blueArtillery, new Vector2Int(3, 6), blueTeam);
+        spawnNewPieceAt(blueArtillery, new Vector2Int(3, 10), blueTeam);
+        spawnNewPieceAt(blueArtillery, new Vector2Int(3, 12), blueTeam);
 
         // spawning red army
-        spawnNewPieceAt(pawnRed, new Vector2Int(4, 0), redTeam);
-        spawnNewPieceAt(pawnRed, new Vector2Int(4, 1), redTeam);
-        spawnNewPieceAt(pawnRed, new Vector2Int(4, 2), redTeam);
-        spawnNewPieceAt(pawnRed, new Vector2Int(4, 3), redTeam);
-        spawnNewPieceAt(pawnRed, new Vector2Int(4, 4), redTeam);
-        spawnNewPieceAt(pawnRed, new Vector2Int(4, 5), redTeam);
-        spawnNewPieceAt(pawnRed, new Vector2Int(4, 6), redTeam);
-        spawnNewPieceAt(redArtillery, new Vector2Int(5, 2), redTeam);
-        spawnNewPieceAt(redArtillery, new Vector2Int(5, 3), redTeam);
-        spawnNewPieceAt(redArtillery, new Vector2Int(5, 4), redTeam);
+        spawnNewPieceAt(pawnRed, new Vector2Int(18, 2), redTeam);
+        spawnNewPieceAt(pawnRed, new Vector2Int(18, 4), redTeam);
+        spawnNewPieceAt(pawnRed, new Vector2Int(18, 6), redTeam);
+        spawnNewPieceAt(pawnRed, new Vector2Int(18, 8), redTeam);
+        spawnNewPieceAt(pawnRed, new Vector2Int(18, 10), redTeam);
+        spawnNewPieceAt(pawnRed, new Vector2Int(18, 12), redTeam);
+        spawnNewPieceAt(pawnRed, new Vector2Int(18, 14), redTeam);
+        spawnNewPieceAt(redArtillery, new Vector2Int(19, 6), redTeam);
+        spawnNewPieceAt(redArtillery, new Vector2Int(19, 10), redTeam);
+        spawnNewPieceAt(redArtillery, new Vector2Int(19, 12), redTeam);
         pawnInfoUI.SetActive(false);
         roundNum = 1;
         roundInfo.text = "Round " + roundNum;
