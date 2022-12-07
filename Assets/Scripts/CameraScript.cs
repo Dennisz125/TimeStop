@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 
 public class CameraScript : MonoBehaviour
@@ -34,5 +35,10 @@ public class CameraScript : MonoBehaviour
         {
             transform.RotateAround(transform.position, Vector3.up, -r2val);
         }
+    }
+    public void focusCamera(Vector3 position)
+    {
+        transform.position = new Vector3(position.x, 15,position.z);
+        //transform.Translate(position.x, position.y, -Input.GetAxis("Zoom"));
     }
 }

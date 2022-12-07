@@ -105,6 +105,13 @@ public class MainScript2 : MonoBehaviour
                 if (endTurn)
                 {
                     changeTurnScript.FadeToNextTurn();
+                    Vector3 reqPosition =  new Vector3(0,0,0);
+                    GameObject[] redgos = GameObject.FindGameObjectsWithTag("Red Pawn");
+                    foreach (GameObject go in redgos)
+                    {
+                        reqPosition += go.transform.position;
+                    }
+                    pickCamera.GetComponent<CameraScript>().focusCamera(reqPosition/redgos.Length);
                     gameStates = GameStates.player2Turn;
                     endTurn = false;
                     actionpoints = 10;
@@ -120,6 +127,13 @@ public class MainScript2 : MonoBehaviour
                 if (endTurn)
                 {
                     changeTurnScript.FadeToNextTurn();
+                    Vector3 reqPosition = new Vector3(0, 0, 0);
+                    GameObject[] bluegos = GameObject.FindGameObjectsWithTag("Blue Pawn");
+                    foreach (GameObject go in bluegos)
+                    {
+                        reqPosition += go.transform.position;
+                    }
+                    pickCamera.GetComponent<CameraScript>().focusCamera(reqPosition / bluegos.Length);
                     gameStates = GameStates.executionTurn;
                     endTurn = false;
                     actionpoints = 10;
