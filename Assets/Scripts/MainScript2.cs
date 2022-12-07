@@ -37,7 +37,8 @@ public class MainScript2 : MonoBehaviour
     [SerializeField] private ChangeTurn changeTurnScript;
     [SerializeField] private GameObject playerWonCanvas;
 
-  
+    [SerializeField] private GameObject explosionparticles;
+    
 
     private GameObject rangeindicator;
 
@@ -105,6 +106,7 @@ public class MainScript2 : MonoBehaviour
                 if (endTurn)
                 {
                     changeTurnScript.FadeToNextTurn();
+                    
                     gameStates = GameStates.player2Turn;
                     endTurn = false;
                     actionpoints = 10;
@@ -120,6 +122,7 @@ public class MainScript2 : MonoBehaviour
                 if (endTurn)
                 {
                     changeTurnScript.FadeToNextTurn();
+                    
                     gameStates = GameStates.executionTurn;
                     endTurn = false;
                     actionpoints = 10;
@@ -145,6 +148,7 @@ public class MainScript2 : MonoBehaviour
                 }
                 else
                 {
+                   
                     changeTurnScript.FadeToNextTurn();
                     gameStates = GameStates.player1Turn;
                     roundNum++;
@@ -220,6 +224,8 @@ public class MainScript2 : MonoBehaviour
                             selection.transform.position = hitInfo.transform.position;
                             selectionScript.setPosition(hitInfoPosition);
                             selection.SendMessage("Highlight", false);
+                            
+                            
                             //ghost pawn
                             if (!selectionScript.isGhost) selectionScript.isGhost = true;
                             selectionScript.beGhost();
@@ -273,6 +279,8 @@ public class MainScript2 : MonoBehaviour
                     {
                         --blueScript.healthPoints;
                         --redScript.healthPoints;
+                        PlayFireParticle(blue.position);
+                        
                         continue;
                     }
                 }
@@ -375,6 +383,19 @@ public class MainScript2 : MonoBehaviour
                     pawnscript.Move();
                 }
             }
+        
+    }
+
+
+    void PlayFireParticle(Vector3 position)
+    {
+        var emitParams = new ParticleSystem.EmitParams();
+        emitParams.position = position;
+        emitParams.velocity = new Vector3(0.0f, 0.0f, -2.0f);
+
+        Instantiate(explosionparticles, position, explosionparticles.transform.rotation);
+
+        explosionparticles.GetComponent<ParticleSystem>().Emit(emitParams, 1);
         
     }
 
