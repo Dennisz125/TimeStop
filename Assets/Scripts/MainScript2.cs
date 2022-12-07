@@ -61,9 +61,29 @@ public class MainScript2 : MonoBehaviour
         mapData = map.GetComponent<MapMake2>();
         mapData.MapMake(level);
 
-        spawnNewPieceAt(pawnBlue, new Vector2Int(0, 1), blueTeam);
-        spawnNewPieceAt(pawnBlue, new Vector2Int(0, 0), blueTeam);
-        spawnNewPieceAt(pawnRed, new Vector2Int(3, 0), redTeam);
+        // spawning blue army
+        spawnNewPieceAt(pawnBlue, new Vector2Int(2, 0), blueTeam);
+        spawnNewPieceAt(pawnBlue, new Vector2Int(2, 1), blueTeam);
+        spawnNewPieceAt(pawnBlue, new Vector2Int(2, 2), blueTeam);
+        spawnNewPieceAt(pawnBlue, new Vector2Int(2, 3), blueTeam);
+        spawnNewPieceAt(pawnBlue, new Vector2Int(2, 4), blueTeam);
+        spawnNewPieceAt(pawnBlue, new Vector2Int(2, 5), blueTeam);
+        spawnNewPieceAt(pawnBlue, new Vector2Int(2, 6), blueTeam);
+        spawnNewPieceAt(blueArtillery, new Vector2Int(1, 2), blueTeam);
+        spawnNewPieceAt(blueArtillery, new Vector2Int(1, 3), blueTeam);
+        spawnNewPieceAt(blueArtillery, new Vector2Int(1, 4), blueTeam);
+
+        // spawning red army
+        spawnNewPieceAt(pawnRed, new Vector2Int(4, 0), redTeam);
+        spawnNewPieceAt(pawnRed, new Vector2Int(4, 1), redTeam);
+        spawnNewPieceAt(pawnRed, new Vector2Int(4, 2), redTeam);
+        spawnNewPieceAt(pawnRed, new Vector2Int(4, 3), redTeam);
+        spawnNewPieceAt(pawnRed, new Vector2Int(4, 4), redTeam);
+        spawnNewPieceAt(pawnRed, new Vector2Int(4, 5), redTeam);
+        spawnNewPieceAt(pawnRed, new Vector2Int(4, 6), redTeam);
+        spawnNewPieceAt(redArtillery, new Vector2Int(5, 2), redTeam);
+        spawnNewPieceAt(redArtillery, new Vector2Int(5, 3), redTeam);
+        spawnNewPieceAt(redArtillery, new Vector2Int(5, 4), redTeam);
         pawnInfoUI.SetActive(false);
         roundNum = 1;
         roundInfo.text = "Round " + roundNum;
@@ -91,7 +111,11 @@ public class MainScript2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gameOver) return;
+        if (gameOver)
+        {
+            print("game over");
+            return;
+        }
         switch (gameStates)
         {
             case GameStates.player1Turn:
@@ -99,9 +123,6 @@ public class MainScript2 : MonoBehaviour
                 turnInfo.text = "Player 1's Turn";
                 actionInfo.text = actionpoints.ToString();
                 roundInfo.text = "Round " + roundNum;
-
-                // if player 1 selects "end turn" button, switch to player 2 turn
-                // gameStates = GameStates.player2Turn;
                 if (endTurn)
                 {
                     changeTurnScript.FadeToNextTurn();
@@ -114,9 +135,6 @@ public class MainScript2 : MonoBehaviour
                 playerLoop(1);
                 turnInfo.text = "Player 2's Turn";
                 actionInfo.text = actionpoints.ToString();
-
-                // if player 2 selects "end turn" button, switch to execution turn
-                //gameStates = GameStates.executionTurn;
                 if (endTurn)
                 {
                     changeTurnScript.FadeToNextTurn();
@@ -127,35 +145,76 @@ public class MainScript2 : MonoBehaviour
                 break;
             case GameStates.executionTurn:
                 // execution logic ...
-
-                execution();
-
                 turnInfo.text = "Executing";
 
+                execution();
+                recalculateTeamPawns();
+
                 // check if a team has won the game
-                (bool, int) winnerTeam = victoryConditions.checkIfTeamWon();
-                if (winnerTeam.Item1)
-                {
-                    //print("winner! team:" + winnerTeam.Item2);
-                    turnInfo.text = "winner! team:" + winnerTeam.Item2;
-                    gameOver = true;
-                    playerWonCanvas.SetActive(true);
-                    string wonText = "Player " + winnerTeam.Item2 + " won!";
-                    playerWonCanvas.GetComponentInChildren<TextMeshProUGUI>().SetText(wonText);
-                }
-                else
-                {
-                    changeTurnScript.FadeToNextTurn();
-                    gameStates = GameStates.player1Turn;
-                    roundNum++;
-                }
-                    
-                // if the game is done executing, switch to player 1 turn
-                //gameStates = GameStates.player1Turn;
+                int redTeamCount = redTeam.transform.childCount;
+                int blueTeamCount = blueTeam.transform.childCount;
+                print("Red Team Count:" + redTeamCount);
+                print("Blue Team Count:" + blueTeamCount);
+                checkIfTeamWon(blueTeamCount, redTeamCount);
                 break;
         }
     }
 
+    void checkIfTeamWon(int blueTeamCount, int redTeamCount)
+    {
+        if (blueTeamCount == 0 && redTeamCount != 0)
+        {
+            print("Player 2 wins");
+            turnInfo.text = "Player 2 Wins";
+            gameOver = true;
+            playerWonCanvas.SetActive(true);
+            string wonText = "Player 2 won!";
+            playerWonCanvas.GetComponentInChildren<TextMeshProUGUI>().SetText(wonText);
+        }
+        else if (blueTeamCount != 0 && redTeamCount == 0)
+        {
+            print("Player 1 wins");
+            turnInfo.text = "Player 1 Wins";
+            gameOver = true;
+            playerWonCanvas.SetActive(true);
+            string wonText = "Player 1 won!";
+            playerWonCanvas.GetComponentInChildren<TextMeshProUGUI>().SetText(wonText);
+        }
+        if (blueTeamCount == 0 && redTeamCount == 0)
+        {
+            print("Tie");
+            turnInfo.text = "Tie";
+            gameOver = true;
+            playerWonCanvas.SetActive(true);
+            string wonText = "Tie!";
+            playerWonCanvas.GetComponentInChildren<TextMeshProUGUI>().SetText(wonText);
+        }
+        else
+        {
+            //changeTurnScript.FadeToNextTurn();
+            gameStates = GameStates.player1Turn;
+            roundNum++;
+        }
+    }
+
+    void recalculateTeamPawns()
+    {
+        foreach (Transform child in redTeam.transform)
+        {
+            if (child.GetComponent<pawn>().healthPoints <= 0)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+        foreach (Transform child in blueTeam.transform)
+        {
+            if (child.GetComponent<pawn>().healthPoints <= 0)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+    }
+    
     void playerLoop(int state)
     {
         if (Input.GetMouseButtonDown(0))

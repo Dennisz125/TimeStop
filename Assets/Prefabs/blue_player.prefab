@@ -102,7 +102,7 @@ MonoBehaviour:
   neighbors: []
   tileX: 0
   tileY: 0
-  healthPoints: 100
+  healthPoints: 3
   actionPoints: 10
   attackRange: 1
   movementSpeed: 1
