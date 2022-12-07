@@ -279,8 +279,7 @@ public class MainScript2 : MonoBehaviour
                     {
                         --blueScript.healthPoints;
                         --redScript.healthPoints;
-                        PlayFireParticle(blue.position);
-                        
+
                         continue;
                     }
                 }
@@ -387,16 +386,17 @@ public class MainScript2 : MonoBehaviour
     }
 
 
-    void PlayFireParticle(Vector3 position)
+    GameObject PlayFireParticle(Vector3 position)
     {
         var emitParams = new ParticleSystem.EmitParams();
         emitParams.position = position;
         emitParams.velocity = new Vector3(0.0f, 0.0f, -2.0f);
 
-        Instantiate(explosionparticles, position, explosionparticles.transform.rotation);
+        GameObject particles = Instantiate(explosionparticles, position, explosionparticles.transform.rotation);
 
         explosionparticles.GetComponent<ParticleSystem>().Emit(emitParams, 1);
-        
+
+        return particles;
     }
 
 
