@@ -31,6 +31,9 @@ public class MainScript2 : MonoBehaviour
     private float xOffset = 1.73f;
     private float zOffset = 1.5f;
     private GamePhase currentPhase = GamePhase.Player1;
+
+    private int actionpoints = 10;
+
     [SerializeField] private ChangeTurn changeTurnScript;
     [SerializeField] private GameObject playerWonCanvas;
 
@@ -45,6 +48,7 @@ public class MainScript2 : MonoBehaviour
     [SerializeField] private GameObject pawnUIAttackRange;
     [SerializeField] private TextMeshProUGUI turnInfo;
     [SerializeField] private TextMeshProUGUI roundInfo;
+    [SerializeField] private TextMeshProUGUI actionInfo;
 
 
     public int level = 1;
@@ -93,20 +97,22 @@ public class MainScript2 : MonoBehaviour
             case GameStates.player1Turn:
                 playerLoop(0);
                 turnInfo.text = "Player 1's Turn";
-                    
+                actionInfo.text = actionpoints.ToString();
+
                 // if player 1 selects "end turn" button, switch to player 2 turn
                 // gameStates = GameStates.player2Turn;
-                if(endTurn)
+                if (endTurn)
                 {
                     changeTurnScript.FadeToNextTurn();
                     gameStates = GameStates.player2Turn;
                     endTurn = false;
+                    actionpoints = 10;
                 }
                 break;
             case GameStates.player2Turn:
                 playerLoop(1);
                 turnInfo.text = "Player 2's Turn";
-
+                actionInfo.text = actionpoints.ToString();
 
                 // if player 2 selects "end turn" button, switch to execution turn
                 //gameStates = GameStates.executionTurn;
@@ -115,13 +121,15 @@ public class MainScript2 : MonoBehaviour
                     changeTurnScript.FadeToNextTurn();
                     gameStates = GameStates.executionTurn;
                     endTurn = false;
-                    roundNum++;
+                    actionpoints = 10;
                 }
                 break;
             case GameStates.executionTurn:
                 // execution logic ...
 
                 execution();
+
+                turnInfo.text = "Executing";
 
                 // check if a team has won the game
                 (bool, int) winnerTeam = victoryConditions.checkIfTeamWon();
@@ -191,27 +199,32 @@ public class MainScript2 : MonoBehaviour
 
                 if (selectionScript.checkNeighbors(hitInfoPosition))
                     {
-                        
-                        if (!selectionScript.isGhost)
+                        if (actionpoints > 0)
                         {
-                            if (selectionScript.getTeamOwner() == 1)
-                            {
-                                selectionScript.setfrom(spawnNewPieceAt(pawnBlue, selectionScript.getPosition(), blueTeam));
+                              if (!selectionScript.isGhost)
+                              {
+                                if (selectionScript.getTeamOwner() == 1)
+                                {
+                                 selectionScript.setfrom(spawnNewPieceAt(pawnBlue, selectionScript.getPosition(), blueTeam));
                                 
-                            }
-                            else if (selectionScript.getTeamOwner() == 2)
-                            {
-                                selectionScript.setfrom(spawnNewPieceAt(pawnRed, selectionScript.getPosition(), redTeam));
-                            }
-                        }
+                                }
+                                else if (selectionScript.getTeamOwner() == 2)
+                                {
+                                 selectionScript.setfrom(spawnNewPieceAt(pawnRed, selectionScript.getPosition(), redTeam));
+                                }
+                               }
 
-                        selection.transform.position = hitInfo.transform.position;
-                        selectionScript.setPosition(hitInfoPosition);
-                        selection.SendMessage("Highlight", false);
-                        //ghost pawn
-                        if (!selectionScript.isGhost) selectionScript.isGhost = true;
-                        selectionScript.beGhost();
-                        selection = null;
+                        
+                            selection.transform.position = hitInfo.transform.position;
+                            selectionScript.setPosition(hitInfoPosition);
+                            selection.SendMessage("Highlight", false);
+                            //ghost pawn
+                            if (!selectionScript.isGhost) selectionScript.isGhost = true;
+                            selectionScript.beGhost();
+                            selection = null;
+                            actionpoints--;
+                            actionInfo.text = actionpoints.ToString();
+                        }
                         if (rangeindicator)
                         {
                             Destroy(rangeindicator);
@@ -237,7 +250,7 @@ public class MainScript2 : MonoBehaviour
 
     void execution()
     {
-
+        MovePawn();
     }
 
     private void selectPawnHelper(RaycastHit hitInfo)
@@ -271,6 +284,7 @@ public class MainScript2 : MonoBehaviour
             pawnUIHealth.GetComponent<TextMeshProUGUI>().text = hitInfo.transform.gameObject.GetComponent<pawn>().healthPoints.ToString();
             pawnUIAttackRange.GetComponent<TextMeshProUGUI>().text = hitInfo.transform.gameObject.GetComponent<pawn>().attackRange.ToString();
             pawnUIMovementSpeed.GetComponent<TextMeshProUGUI>().text = hitInfo.transform.gameObject.GetComponent<pawn>().movementSpeed.ToString();
+            
         }
     }
 
@@ -310,10 +324,9 @@ public class MainScript2 : MonoBehaviour
 
     public void MovePawn ()
     {
-        if (gameStates == GameStates.player1Turn)
-        {
-            GameObject[] gos = GameObject.FindGameObjectsWithTag("Blue Pawn");
-            foreach (GameObject go in gos)
+        
+            GameObject[] bluegos = GameObject.FindGameObjectsWithTag("Blue Pawn");
+            foreach (GameObject go in bluegos)
             {
                 pawn pawnscript;
                 go.TryGetComponent<pawn>(out pawnscript);
@@ -322,11 +335,10 @@ public class MainScript2 : MonoBehaviour
                     pawnscript.Move();
                 }
             }
-        }
-        else if (gameStates == GameStates.player2Turn)
-        {
-            GameObject[] gos = GameObject.FindGameObjectsWithTag("Red Pawn");
-            foreach (GameObject go in gos)
+        
+        
+            GameObject[] redgos = GameObject.FindGameObjectsWithTag("Red Pawn");
+            foreach (GameObject go in redgos)
             {
                 pawn pawnscript;
                 go.TryGetComponent<pawn>(out pawnscript);
@@ -335,7 +347,7 @@ public class MainScript2 : MonoBehaviour
                     pawnscript.Move();
                 }
             }
-        }
+        
     }
 
 
