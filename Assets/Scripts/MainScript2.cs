@@ -39,7 +39,7 @@ public class MainScript2 : MonoBehaviour
 
     [SerializeField] private GameObject explosionparticles;
     
-
+ 
     private GameObject rangeindicator;
 
     // UI related fields
@@ -338,7 +338,7 @@ public class MainScript2 : MonoBehaviour
                     {
                         --blueScript.healthPoints;
                         --redScript.healthPoints;
-
+                        PlayFireParticle(blue.position);
                         continue;
                     }
                 }
