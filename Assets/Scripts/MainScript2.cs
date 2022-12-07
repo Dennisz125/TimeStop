@@ -98,6 +98,7 @@ public class MainScript2 : MonoBehaviour
                 playerLoop(0);
                 turnInfo.text = "Player 1's Turn";
                 actionInfo.text = actionpoints.ToString();
+                roundInfo.text = "Round " + roundNum;
 
                 // if player 1 selects "end turn" button, switch to player 2 turn
                 // gameStates = GameStates.player2Turn;
@@ -146,6 +147,7 @@ public class MainScript2 : MonoBehaviour
                 {
                     changeTurnScript.FadeToNextTurn();
                     gameStates = GameStates.player1Turn;
+                    roundNum++;
                 }
                     
                 // if the game is done executing, switch to player 1 turn
