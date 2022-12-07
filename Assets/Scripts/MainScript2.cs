@@ -50,6 +50,9 @@ public class MainScript2 : MonoBehaviour
     [SerializeField] private TextMeshProUGUI turnInfo;
     [SerializeField] private TextMeshProUGUI roundInfo;
     [SerializeField] private TextMeshProUGUI actionInfo;
+    private static bool gameIsPaused = false;
+    private float defaultPauseTime = 2.5f;
+    private float pauseTime = 2.5f;
 
 
     public int level = 1;
@@ -112,9 +115,11 @@ public class MainScript2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gameOver)
+        if (gameOver) { return; }
+
+        if (gameIsPaused)
         {
-            print("game over");
+            decrementPauseTimer();
             return;
         }
         switch (gameStates)
@@ -131,6 +136,7 @@ public class MainScript2 : MonoBehaviour
                     gameStates = GameStates.player2Turn;
                     endTurn = false;
                     actionpoints = 10;
+                    gameIsPaused = true;
                 }
                 break;
             case GameStates.player2Turn:
@@ -144,6 +150,7 @@ public class MainScript2 : MonoBehaviour
                     gameStates = GameStates.executionTurn;
                     endTurn = false;
                     actionpoints = 10;
+                    gameIsPaused = true;
                 }
                 break;
             case GameStates.executionTurn:
@@ -161,6 +168,16 @@ public class MainScript2 : MonoBehaviour
                 checkIfTeamWon(blueTeamCount, redTeamCount);
 
                 break;
+        }
+    }
+
+    private void decrementPauseTimer()
+    {
+        pauseTime -= Time.deltaTime;
+        if (pauseTime <= 0)
+        {
+            gameIsPaused = false;
+            pauseTime = defaultPauseTime;
         }
     }
 
